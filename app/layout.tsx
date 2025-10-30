@@ -44,23 +44,23 @@ export default function RootLayout({
               <Link href="/" className="hover:underline">
                 Home
               </Link>
-              <a href="#dogs" className="hover:underline">
+              <Link href="/#dogs" className="hover:underline">
                 Dogs
-              </a>
-              <a
-                href="#how-it-works"
+              </Link>
+              <Link
+                href="/#how-it-works"
                 className="hidden hover:underline lg:block"
               >
                 How it works
-              </a>
+              </Link>
             </nav>
             <div className="flex items-center gap-3">
-              <a
-                href="#adopt"
+              <Link
+                href="/#dogs"
                 className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
               >
                 Adopt
-              </a>
+              </Link>
             </div>
           </div>
         </header>

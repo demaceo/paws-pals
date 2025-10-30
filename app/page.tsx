@@ -26,10 +26,10 @@ export default function Home() {
                 Explore dogs
               </a>
               <Link
-                href="/"
+                href="#how-it-works"
                 className="rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-900 dark:text-zinc-50 dark:hover:bg-zinc-800"
               >
-                Learn about adoption
+                How it works
               </Link>
             </div>
           </div>
@@ -50,6 +50,37 @@ export default function Home() {
             </dl>
           </div>
         </div>
+      </section>
+
+      {/* How it works */}
+      <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-8">
+        <h2 className="text-2xl font-semibold tracking-tight">How it works</h2>
+        <p className="mt-2 max-w-2xl text-zinc-600 dark:text-zinc-400">
+          A simple, thoughtful process to match you with your new best friend.
+        </p>
+        <ol className="mt-6 grid gap-4 sm:grid-cols-3">
+          <li className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">1</span>
+              <h3 className="font-medium">Browse and inquire</h3>
+            </div>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Explore dogs, open a profile, and start an adoption inquiry.</p>
+          </li>
+          <li className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">2</span>
+              <h3 className="font-medium">Meet and greet</h3>
+            </div>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">We’ll schedule an optional visit and help with compatibility questions.</p>
+          </li>
+          <li className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">3</span>
+              <h3 className="font-medium">Bring them home</h3>
+            </div>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Finalize adoption with guidance on care, training, and supplies.</p>
+          </li>
+        </ol>
       </section>
 
       <DogExplorer dogs={dogs} />

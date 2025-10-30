@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Sticky header height used for scroll offset */
+  --header-height: 72px;
 }
 
 @theme inline {
@@ -23,4 +25,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Smooth scrolling for in-page anchors across the site */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent sticky header from covering anchored content */
+/* Apply a top scroll margin to any element that can be anchored */
+[id] {
+  scroll-margin-top: var(--header-height);
 }
