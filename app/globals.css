@@ -19,6 +19,7 @@
   --shadow: rgba(0, 0, 0, 0.05);
 }
 
+/* stylelint-disable-next-line at-rule-no-unknown */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
