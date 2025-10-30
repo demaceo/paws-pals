@@ -1,32 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
 import AdoptionModal from "@/app/components/AdoptionModal";
-
-type Props = {
-  params: { id: string };
-};
 
 export async function generateStaticParams() {
   return getDogs().map((d) => ({ id: d.id }));
 }
 
-export function generateMetadata({ params }: Props) {
-  const dog = getDog(params.id);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>; // Next.js 16 dynamic APIs
+}) {
+  const { id } = await params;
+  const dog = getDog(id);
   return {
     title: dog ? `${dog.name} • ${dog.breed}` : "Dog not found",
     description: dog?.description ?? "Dog profile",
   };
 }
 
-export default function DogPage({ params }: Props) {
-  const dog = getDog(params.id);
+export default async function DogPage({
+  params,
+}: {
+  params: Promise<{ id: string }>; // Next.js 16 dynamic APIs
+}) {
+  const { id } = await params;
+  const dog = getDog(id);
   if (!dog) return notFound();
 
   const gallery = dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
 
-  async function adoptAction(formData: FormData) {
+  type ActionState = { ok: boolean; error?: string; dogName?: string };
+
+  async function adoptAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
     "use server";
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
@@ -35,8 +43,14 @@ export default function DogPage({ params }: Props) {
     const dogId = String(formData.get("dogId") || "");
     const dogName = String(formData.get("dogName") || "this dog");
 
+    // Basic server validation
+    if (!name || !email) return { ok: false, error: "Name and email are required." };
+    const digits = phone.replace(/\D/g, "");
+    if (digits.length < 10) return { ok: false, error: "Please enter a valid 10-digit phone number." };
+
+    // Simulate persistence; swap with real integration later
     console.log("Adoption inquiry", { dogId, name, email, phone, message });
-    redirect(`/thank-you?dog=${encodeURIComponent(dogName)}`);
+    return { ok: true, dogName };
   }
 
   return (
