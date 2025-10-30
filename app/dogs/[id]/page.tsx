@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
 
 type Props = {
@@ -107,6 +107,94 @@ export default function DogPage({ params }: Props) {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Adoption form */}
+      <section id="adopt" className="mx-auto mt-10 max-w-6xl px-6">
+        <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+          <h2 className="text-xl font-semibold tracking-tight">Start the adoption process</h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            Tell us a bit about you and your home. We’ll get back within 24–48 hours.
+          </p>
+
+          <form
+            action={async (formData: FormData) => {
+              "use server";
+              // Basic validation
+              const name = String(formData.get("name") || "").trim();
+              const email = String(formData.get("email") || "").trim();
+              const phone = String(formData.get("phone") || "").trim();
+              const message = String(formData.get("message") || "").trim();
+              const dogId = String(formData.get("dogId") || "");
+
+              // Simulate persistence or send to an integration later
+              console.log("Adoption inquiry", { dogId, name, email, phone, message });
+
+              // Redirect to thank-you with context
+              redirect(`/thank-you?dog=${encodeURIComponent(dog.name)}`);
+            }}
+            className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2"
+          >
+            <input type="hidden" name="dogId" value={dog.id} />
+            <div className="md:col-span-1">
+              <label className="mb-1 block text-xs text-zinc-500" htmlFor="name">
+                Full name
+              </label>
+              <input
+                id="name"
+                name="name"
+                required
+                placeholder="Jane Doe"
+                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+              />
+            </div>
+            <div className="md:col-span-1">
+              <label className="mb-1 block text-xs text-zinc-500" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@example.com"
+                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+              />
+            </div>
+            <div className="md:col-span-1">
+              <label className="mb-1 block text-xs text-zinc-500" htmlFor="phone">
+                Phone
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="(555) 555-1234"
+                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="mb-1 block text-xs text-zinc-500" htmlFor="message">
+                Tell us about your home/environment
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                placeholder="Yard or nearby park? Any other pets? Daily schedule?"
+                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <button
+                type="submit"
+                className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500 md:w-auto"
+              >
+                Submit inquiry
+              </button>
+            </div>
+          </form>
         </div>
       </section>
     </div>
