@@ -1,0 +1,6 @@
+public/dogs/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+public/dogs/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+public/dogs/**/*.png filter=lfs diff=lfs merge=lfs -text
+public/dogs/**/*.JPG filter=lfs diff=lfs merge=lfs -text
+public/dogs/**/*.HEIC filter=lfs diff=lfs merge=lfs -text
+public/dogs/**/*.heic filter=lfs diff=lfs merge=lfs -text
