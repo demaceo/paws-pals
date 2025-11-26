@@ -4,13 +4,13 @@ export function translateAttribute(value: string, messages: Messages): string {
     const lowerValue = value.toLowerCase();
 
     // Sex translations
-    if (lowerValue === "male") return messages["attr.male"];
-    if (lowerValue === "female") return messages["attr.female"];
+    if (lowerValue === "male") return messages["attr.male"] || value;
+    if (lowerValue === "female") return messages["attr.female"] || value;
 
     // Size translations
-    if (lowerValue === "small") return messages["attr.small"];
-    if (lowerValue === "medium") return messages["attr.medium"];
-    if (lowerValue === "large") return messages["attr.large"];
+    if (lowerValue === "small") return messages["attr.small"] || value;
+    if (lowerValue === "medium") return messages["attr.medium"] || value;
+    if (lowerValue === "large") return messages["attr.large"] || value;
 
     return value;
 }
@@ -25,12 +25,16 @@ export function translateAge(age: string, messages: Messages): string {
 
     if (unit.startsWith("year")) {
         const key = count === 1 ? "attr.year" : "attr.years";
-        return messages[key].replace("{count}", String(count));
+        const template = messages[key];
+        if (!template) return age;
+        return template.replace("{count}", String(count));
     }
 
     if (unit.startsWith("month")) {
         const key = count === 1 ? "attr.month" : "attr.months";
-        return messages[key].replace("{count}", String(count));
+        const template = messages[key];
+        if (!template) return age;
+        return template.replace("{count}", String(count));
     }
 
     return age;

@@ -31,6 +31,7 @@ export default function LanguageSwitcher() {
         } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("en")}
         aria-pressed={locale === "en"}
+        aria-label="Switch to English"
         disabled={pending}
       >
         {pending && locale !== "en" ? "..." : "EN"}
@@ -44,6 +45,7 @@ export default function LanguageSwitcher() {
         } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("es")}
         aria-pressed={locale === "es"}
+        aria-label="Switch to Spanish"
         disabled={pending}
       >
         {pending && locale !== "es" ? "..." : "ES"}

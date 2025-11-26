@@ -56,7 +56,7 @@ export default async function DogPage({
   ): Promise<ActionState> {
     "use server";
     const submittedLocale =
-      (String(formData.get("locale") || locale) as Locale) || "en";
+      (String(formData.get("locale") || locale)) as Locale;
     const mm = getMessages(submittedLocale);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
@@ -95,7 +95,6 @@ export default async function DogPage({
                   fill
                   sizes="(max-width: 1024px) 100vw, 60vw"
                   className="object-cover"
-                  unoptimized
                 />
               </div>
               {gallery.length > 1 && (
@@ -111,7 +110,6 @@ export default async function DogPage({
                         fill
                         sizes="25vw"
                         className="object-cover"
-                        unoptimized
                       />
                     </div>
                   ))}

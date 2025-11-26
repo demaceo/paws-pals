@@ -26,7 +26,7 @@ export default async function ThankYou({
           {m["thanks.back"]}
         </Link>
         <a
-          href="#"
+          href="mailto:support@pawsandpals.com"
           className="rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-900 dark:text-zinc-50"
         >
           {m["thanks.contact"]}
