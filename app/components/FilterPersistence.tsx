@@ -6,11 +6,14 @@ import { useI18n } from "@/app/i18n/LocaleProvider";
 // Hook to persist scroll position across locale switches
 export function useFilterPersistence() {
   const { locale } = useI18n();
-  const prevLocaleRef = useRef<string | undefined>();
+  const prevLocaleRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     // Restore scroll position after locale change (only if locale changed)
-    if (prevLocaleRef.current !== undefined && prevLocaleRef.current !== locale) {
+    if (
+      prevLocaleRef.current !== undefined &&
+      prevLocaleRef.current !== locale
+    ) {
       const savedScroll = sessionStorage.getItem("scrollPosition");
       if (savedScroll) {
         window.scrollTo(0, parseInt(savedScroll, 10));
