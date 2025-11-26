@@ -28,18 +28,24 @@ type Props = { dogs: Dog[] };
 export default function DogExplorer({ dogs }: Props) {
   const { t } = useI18n();
 
-  // Initialize state with saved values or defaults
-  const initialState = useMemo(() => {
-    if (typeof window === "undefined") {
-      return { query: "", breed: "all", ageGroup: "any" };
-    }
+  // Initialize state with saved values or defaults using lazy initializers
+  const [q, setQ] = useState(() => {
+    if (typeof window === "undefined") return "";
     const saved = loadFilterState();
-    return saved || { query: "", breed: "all", ageGroup: "any" };
-  }, []);
+    return saved?.query ?? "";
+  });
 
-  const [q, setQ] = useState(initialState.query);
-  const [breed, setBreed] = useState(initialState.breed);
-  const [ageGroup, setAgeGroup] = useState(initialState.ageGroup);
+  const [breed, setBreed] = useState(() => {
+    if (typeof window === "undefined") return "all";
+    const saved = loadFilterState();
+    return saved?.breed ?? "all";
+  });
+
+  const [ageGroup, setAgeGroup] = useState(() => {
+    if (typeof window === "undefined") return "any";
+    const saved = loadFilterState();
+    return saved?.ageGroup ?? "any";
+  });
 
   // Save filter state whenever it changes
   useEffect(() => {

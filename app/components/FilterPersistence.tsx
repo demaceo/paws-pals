@@ -1,22 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useI18n } from "@/app/i18n/LocaleProvider";
 
-// Component to persist filter state across locale switches
+// Hook to persist scroll position across locale switches
 export function useFilterPersistence() {
   const { locale } = useI18n();
+  const prevLocaleRef = useRef<string | undefined>();
 
   useEffect(() => {
-    // Save current scroll position before locale change
-    const scrollY = window.scrollY;
-    sessionStorage.setItem("scrollPosition", String(scrollY));
-
-    // Restore scroll position after locale change
-    const savedScroll = sessionStorage.getItem("scrollPosition");
-    if (savedScroll) {
-      window.scrollTo(0, parseInt(savedScroll, 10));
+    // Restore scroll position after locale change (only if locale changed)
+    if (prevLocaleRef.current !== undefined && prevLocaleRef.current !== locale) {
+      const savedScroll = sessionStorage.getItem("scrollPosition");
+      if (savedScroll) {
+        window.scrollTo(0, parseInt(savedScroll, 10));
+      }
     }
+    prevLocaleRef.current = locale;
+
+    // Save scroll position before locale changes (on cleanup)
+    return () => {
+      sessionStorage.setItem("scrollPosition", String(window.scrollY));
+    };
   }, [locale]);
 }
 
