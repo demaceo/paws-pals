@@ -45,10 +45,11 @@
 }
 
 body {
-  background: var(--background);
+  background: transparent;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   position: relative;
+  min-height: 100vh;
 }
 
 /* Animated gradient background */
@@ -60,7 +61,8 @@ body::before {
   right: 0;
   bottom: 0;
   z-index: -2;
-  background: radial-gradient(
+  background: var(--background),
+    radial-gradient(
       circle at 20% 30%,
       rgba(251, 146, 60, 0.08) 0%,
       transparent 50%
@@ -98,7 +100,8 @@ body::after {
 
 @media (prefers-color-scheme: dark) {
   body::before {
-    background: radial-gradient(
+    background: var(--background),
+      radial-gradient(
         circle at 20% 30%,
         rgba(251, 146, 60, 0.04) 0%,
         transparent 50%
