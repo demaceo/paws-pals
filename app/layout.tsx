@@ -48,11 +48,11 @@ export default async function RootLayout({
       >
         <LocaleProvider locale={locale} messages={m}>
           {/* Site Shell */}
-          <header className="sticky top-0 z-50 border-b border-black/5 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/60">
+          <header className="sticky top-0 z-50 border-b border-orange-100/50 bg-white/90 shadow-sm backdrop-blur-xl dark:border-orange-900/20 dark:bg-black/80">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
               <Link href="/" className="flex items-center gap-2">
                 <span
-                  className="inline-block h-8 w-8 rounded-full bg-indigo-600"
+                  className="inline-block h-8 w-8 rounded-full bg-linear-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30"
                   aria-hidden
                 />
                 <span className="text-lg font-semibold tracking-tight">
@@ -77,7 +77,7 @@ export default async function RootLayout({
                 <LanguageSwitcher />
                 <Link
                   href="/#dogs"
-                  className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
+                  className="rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange-500/30 transition hover:shadow-lg hover:from-orange-600 hover:to-orange-700"
                 >
                   {m["nav.adopt"]}
                 </Link>
@@ -85,7 +85,7 @@ export default async function RootLayout({
             </div>
           </header>
           <main>{children}</main>
-          <footer className="mt-16 border-t border-black/5 py-10 text-sm text-zinc-600 dark:border-white/10 dark:text-zinc-400">
+          <footer className="relative mt-16 border-t border-orange-100/50 bg-white/40 py-10 text-sm text-zinc-600 backdrop-blur-sm dark:border-orange-900/20 dark:bg-black/40 dark:text-zinc-400">
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
               <p>
                 {format(m["footer.copyright"], {

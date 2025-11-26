@@ -21,13 +21,13 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-black/10 bg-white p-1 text-xs dark:border-white/15 dark:bg-zinc-900">
+    <div className="flex items-center gap-1 rounded-full border-2 border-orange-200 bg-white p-1 text-xs shadow-sm dark:border-orange-900/50 dark:bg-zinc-900">
       <button
         type="button"
-        className={`rounded-full px-2 py-1 transition-colors ${
+        className={`rounded-full px-2.5 py-1.5 font-semibold transition-all ${
           locale === "en"
-            ? "bg-indigo-600 text-white"
-            : "text-zinc-700 dark:text-zinc-200"
+            ? "bg-linear-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30"
+            : "text-zinc-700 hover:bg-orange-50 dark:text-zinc-300 dark:hover:bg-orange-950/30"
         } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("en")}
         aria-pressed={locale === "en"}
@@ -38,10 +38,10 @@ export default function LanguageSwitcher() {
       </button>
       <button
         type="button"
-        className={`rounded-full px-2 py-1 transition-colors ${
+        className={`rounded-full px-2.5 py-1.5 font-semibold transition-all ${
           locale === "es"
-            ? "bg-indigo-600 text-white"
-            : "text-zinc-700 dark:text-zinc-200"
+            ? "bg-linear-to-r from-orange-500 to-orange-600 text-white shadow-md shadow-orange-500/30"
+            : "text-zinc-700 hover:bg-orange-50 dark:text-zinc-300 dark:hover:bg-orange-950/30"
         } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("es")}
         aria-pressed={locale === "es"}

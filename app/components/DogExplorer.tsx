@@ -83,7 +83,7 @@ export default function DogExplorer({ dogs }: Props) {
     <>
       {/* Filters */}
       <section className="mx-auto max-w-7xl px-6">
-        <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+        <div className="rounded-2xl border border-orange-100 bg-linear-to-br from-white to-orange-50/20 p-5 shadow-lg shadow-orange-100/20 dark:border-orange-900/30 dark:from-zinc-900 dark:to-orange-950/10 dark:shadow-orange-950/20">
           <div className="grid gap-3 md:grid-cols-3">
             <div>
               <label className="mb-1 block text-xs text-zinc-500">
@@ -93,7 +93,7 @@ export default function DogExplorer({ dogs }: Props) {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder={t("filters.searchPlaceholder")}
-                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+                className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2.5 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
               />
             </div>
             <div>
@@ -103,7 +103,7 @@ export default function DogExplorer({ dogs }: Props) {
               <select
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
-                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-zinc-950"
+                className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2.5 text-sm transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
               >
                 {breeds.map((b) => (
                   <option key={b} value={b}>
@@ -119,7 +119,7 @@ export default function DogExplorer({ dogs }: Props) {
               <select
                 value={ageGroup}
                 onChange={(e) => setAgeGroup(e.target.value)}
-                className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-zinc-950"
+                className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2.5 text-sm transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
               >
                 <option value="any">{t("filters.any")}</option>
                 <option value="puppy">{t("filters.puppy")}</option>
