@@ -59,8 +59,18 @@ const en: Messages = {
     "dog.book": "Book a visit",
     "dog.adopt": "Start adoption",
     "nav.backList": "Back to list",
+    "card.viewDetails": "View details for {name}",
 
-    // Modal
+    // Dog Attributes
+    "attr.male": "Male",
+    "attr.female": "Female",
+    "attr.small": "Small",
+    "attr.medium": "Medium",
+    "attr.large": "Large",
+    "attr.years": "{count} years",
+    "attr.year": "{count} year",
+    "attr.months": "{count} months",
+    "attr.month": "{count} month",    // Modal
     "modal.title": "Adopt {name}",
     "modal.subtitle": "Tell us a bit about you and your home. We'll get back within 24–48 hours.",
     "modal.close": "Close",
@@ -144,8 +154,18 @@ const es: Messages = {
     "dog.book": "Reservar visita",
     "dog.adopt": "Comenzar adopción",
     "nav.backList": "Volver a la lista",
+    "card.viewDetails": "Ver detalles de {name}",
 
-    // Modal
+    // Dog Attributes
+    "attr.male": "Macho",
+    "attr.female": "Hembra",
+    "attr.small": "Pequeño",
+    "attr.medium": "Mediano",
+    "attr.large": "Grande",
+    "attr.years": "{count} años",
+    "attr.year": "{count} año",
+    "attr.months": "{count} meses",
+    "attr.month": "{count} mes",    // Modal
     "modal.title": "Adoptar a {name}",
     "modal.subtitle": "Cuéntanos un poco sobre ti y tu hogar. Te responderemos en 24–48 horas.",
     "modal.close": "Cerrar",

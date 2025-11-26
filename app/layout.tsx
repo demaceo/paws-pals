@@ -17,17 +17,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Paws & Pals — Adopt a Dog",
-    template: "%s — Paws & Pals",
-  },
-  description:
-    "Discover lovable dogs from our partner sanctuary. Browse, learn more, and start the adoption journey.",
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const m = getMessages(locale);
+
+  return {
+    title: {
+      default: m["brand.name"] + " — " + m["nav.adopt"],
+      template: "%s — " + m["brand.name"],
+    },
+    description: m["hero.subtitle"],
+    icons: {
+      icon: "/favicon.ico",
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -36,6 +40,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const m = getMessages(locale);
+
   return (
     <html lang={locale}>
       <body

@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import DogCard from "./DogCard";
 import type { Dog } from "@/lib/dogs";
 import { useI18n } from "@/app/i18n/LocaleProvider";
+import { saveFilterState, loadFilterState } from "./FilterPersistence";
 
 function ageToMonths(age: string): number | null {
   const num = parseFloat(age);
@@ -26,9 +27,24 @@ type Props = { dogs: Dog[] };
 
 export default function DogExplorer({ dogs }: Props) {
   const { t } = useI18n();
-  const [q, setQ] = useState("");
-  const [breed, setBreed] = useState("all");
-  const [ageGroup, setAgeGroup] = useState("any");
+
+  // Initialize state with saved values or defaults
+  const initialState = useMemo(() => {
+    if (typeof window === "undefined") {
+      return { query: "", breed: "all", ageGroup: "any" };
+    }
+    const saved = loadFilterState();
+    return saved || { query: "", breed: "all", ageGroup: "any" };
+  }, []);
+
+  const [q, setQ] = useState(initialState.query);
+  const [breed, setBreed] = useState(initialState.breed);
+  const [ageGroup, setAgeGroup] = useState(initialState.ageGroup);
+
+  // Save filter state whenever it changes
+  useEffect(() => {
+    saveFilterState({ query: q, breed, ageGroup });
+  }, [q, breed, ageGroup]);
 
   const breeds = useMemo(() => {
     const set = new Set<string>();

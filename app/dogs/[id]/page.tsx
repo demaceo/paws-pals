@@ -5,6 +5,7 @@ import { getDog, getDogs } from "@/lib/dogs";
 import AdoptionModal from "@/app/components/AdoptionModal";
 import { getLocale } from "@/lib/i18n-server";
 import { getMessages, format, type Locale } from "@/lib/i18n-messages";
+import { translateAttribute, translateAge } from "@/lib/i18n-helpers";
 
 export async function generateStaticParams() {
   return getDogs().map((d) => ({ id: d.id }));
@@ -13,13 +14,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>; // Next.js 16 dynamic APIs
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const dog = getDog(id);
+  const locale = await getLocale();
+  const m = getMessages(locale);
+
+  if (!dog) {
+    return {
+      title: m["404.title"],
+      description: m["404.body"],
+    };
+  }
+
   return {
-    title: dog ? `${dog.name} • ${dog.breed}` : "Dog not found",
-    description: dog?.description ?? "Dog profile",
+    title: `${dog.name} • ${dog.breed}`,
+    description: dog.description.slice(0, 155),
   };
 }
 
@@ -122,15 +133,19 @@ export default async function DogPage({
               <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
                   <dt className="text-zinc-500">{m["dog.age"]}</dt>
-                  <dd className="font-medium">{dog.age}</dd>
+                  <dd className="font-medium">{translateAge(dog.age, m)}</dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
                   <dt className="text-zinc-500">{m["dog.sex"]}</dt>
-                  <dd className="font-medium">{dog.sex}</dd>
+                  <dd className="font-medium">
+                    {translateAttribute(dog.sex, m)}
+                  </dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
                   <dt className="text-zinc-500">{m["dog.size"]}</dt>
-                  <dd className="font-medium">{dog.size}</dd>
+                  <dd className="font-medium">
+                    {translateAttribute(dog.size, m)}
+                  </dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
                   <dt className="text-zinc-500">{m["dog.location"]}</dt>

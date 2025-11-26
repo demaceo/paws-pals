@@ -24,29 +24,29 @@ export default function LanguageSwitcher() {
     <div className="flex items-center gap-1 rounded-full border border-black/10 bg-white p-1 text-xs dark:border-white/15 dark:bg-zinc-900">
       <button
         type="button"
-        className={`rounded-full px-2 py-1 ${
+        className={`rounded-full px-2 py-1 transition-colors ${
           locale === "en"
             ? "bg-indigo-600 text-white"
             : "text-zinc-700 dark:text-zinc-200"
-        }`}
+        } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("en")}
         aria-pressed={locale === "en"}
         disabled={pending}
       >
-        EN
+        {pending && locale !== "en" ? "..." : "EN"}
       </button>
       <button
         type="button"
-        className={`rounded-full px-2 py-1 ${
+        className={`rounded-full px-2 py-1 transition-colors ${
           locale === "es"
             ? "bg-indigo-600 text-white"
             : "text-zinc-700 dark:text-zinc-200"
-        }`}
+        } ${pending ? "opacity-50" : ""}`}
         onClick={() => switchTo("es")}
         aria-pressed={locale === "es"}
         disabled={pending}
       >
-        ES
+        {pending && locale !== "es" ? "..." : "ES"}
       </button>
     </div>
   );
