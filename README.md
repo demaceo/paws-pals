@@ -1,4 +1,4 @@
-# Paws & Pals
+# One At A Time
 
 A dog adoption landing and profiles site, built with [Next.js](https://nextjs.org) (App Router) and Tailwind CSS v4.
 

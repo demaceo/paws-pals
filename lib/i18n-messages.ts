@@ -7,14 +7,14 @@ export type Messages = Record<string, string>;
 
 const en: Messages = {
     // Brand / Nav
-    "brand.name": "Paws & Pals",
+    "brand.name": "One At A Time",
     "nav.home": "Home",
     "nav.dogs": "Dogs",
     "nav.how": "How it works",
     "nav.adopt": "Adopt",
 
     // Footer
-    "footer.copyright": "© {year} Paws & Pals. All rights reserved.",
+    "footer.copyright": "© {year} One At A Time. All rights reserved.",
     "footer.builtWith": "Built with Next.js and Tailwind CSS.",
 
     // Hero
