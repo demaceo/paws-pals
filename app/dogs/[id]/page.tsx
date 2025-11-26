@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
 import AdoptionModal from "@/app/components/AdoptionModal";
+import { getLocale } from "@/lib/i18n-server";
+import { getMessages, format, type Locale } from "@/lib/i18n-messages";
+import { translateAttribute, translateAge } from "@/lib/i18n-helpers";
 
 export async function generateStaticParams() {
   return getDogs().map((d) => ({ id: d.id }));
@@ -11,13 +14,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ id: string }>; // Next.js 16 dynamic APIs
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const dog = getDog(id);
+  const locale = await getLocale();
+  const m = getMessages(locale);
+
+  if (!dog) {
+    return {
+      title: m["404.title"],
+      description: m["404.body"],
+    };
+  }
+
   return {
-    title: dog ? `${dog.name} • ${dog.breed}` : "Dog not found",
-    description: dog?.description ?? "Dog profile",
+    title: `${dog.name} • ${dog.breed}`,
+    description: dog.description.slice(0, 155),
   };
 }
 
@@ -30,12 +43,21 @@ export default async function DogPage({
   const dog = getDog(id);
   if (!dog) return notFound();
 
-  const gallery = dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
+  const gallery =
+    dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
+  const locale = await getLocale();
+  const m = getMessages(locale);
 
   type ActionState = { ok: boolean; error?: string; dogName?: string };
 
-  async function adoptAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  async function adoptAction(
+    _prevState: ActionState,
+    formData: FormData
+  ): Promise<ActionState> {
     "use server";
+    const submittedLocale =
+      (String(formData.get("locale") || locale)) as Locale;
+    const mm = getMessages(submittedLocale);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
     const phone = String(formData.get("phone") || "").trim();
@@ -44,9 +66,9 @@ export default async function DogPage({
     const dogName = String(formData.get("dogName") || "this dog");
 
     // Basic server validation
-    if (!name || !email) return { ok: false, error: "Name and email are required." };
+    if (!name || !email) return { ok: false, error: mm["form.error.required"] };
     const digits = phone.replace(/\D/g, "");
-    if (digits.length < 10) return { ok: false, error: "Please enter a valid 10-digit phone number." };
+    if (digits.length < 10) return { ok: false, error: mm["form.error.phone"] };
 
     // Simulate persistence; swap with real integration later
     console.log("Adoption inquiry", { dogId, name, email, phone, message });
@@ -57,7 +79,9 @@ export default async function DogPage({
     <div className="bg-zinc-50 pb-20 pt-10 dark:bg-black">
       <section className="mx-auto max-w-6xl px-6">
         <nav className="mb-6 text-sm text-zinc-600 dark:text-zinc-400">
-          <Link className="hover:underline" href="/">← Back to list</Link>
+          <Link className="hover:underline" href="/">
+            ← {m["nav.backList"]}
+          </Link>
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-5">
@@ -76,8 +100,17 @@ export default async function DogPage({
               {gallery.length > 1 && (
                 <div className="mt-2 grid grid-cols-4 gap-2">
                   {gallery.slice(0, 4).map((src, i) => (
-                    <div key={i} className="relative aspect-4/3 w-full overflow-hidden rounded-xl">
-                      <Image src={src} alt={`${dog.name} ${i + 1}`} fill sizes="25vw" className="object-cover" />
+                    <div
+                      key={i}
+                      className="relative aspect-4/3 w-full overflow-hidden rounded-xl"
+                    >
+                      <Image
+                        src={src}
+                        alt={`${dog.name} ${i + 1}`}
+                        fill
+                        sizes="25vw"
+                        className="object-cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -91,29 +124,35 @@ export default async function DogPage({
               <h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
                 {dog.name}
               </h1>
-              <p className="mt-1 text-zinc-600 dark:text-zinc-400">{dog.breed}</p>
+              <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+                {dog.breed}
+              </p>
 
               <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">Age</dt>
-                  <dd className="font-medium">{dog.age}</dd>
+                  <dt className="text-zinc-500">{m["dog.age"]}</dt>
+                  <dd className="font-medium">{translateAge(dog.age, m)}</dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">Sex</dt>
-                  <dd className="font-medium">{dog.sex}</dd>
+                  <dt className="text-zinc-500">{m["dog.sex"]}</dt>
+                  <dd className="font-medium">
+                    {translateAttribute(dog.sex, m)}
+                  </dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">Size</dt>
-                  <dd className="font-medium">{dog.size}</dd>
+                  <dt className="text-zinc-500">{m["dog.size"]}</dt>
+                  <dd className="font-medium">
+                    {translateAttribute(dog.size, m)}
+                  </dd>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">Location</dt>
+                  <dt className="text-zinc-500">{m["dog.location"]}</dt>
                   <dd className="font-medium">{dog.location}</dd>
                 </div>
               </dl>
 
               <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-zinc-500">
-                About {dog.name}
+                {format(m["dog.about"], { name: dog.name })}
               </h2>
               <p className="mt-2 whitespace-pre-line text-base leading-7 text-zinc-700 dark:text-zinc-300">
                 {dog.description}
@@ -125,14 +164,13 @@ export default async function DogPage({
                   href="#visit"
                   className="rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-950 dark:text-zinc-50"
                 >
-                  Book a visit
+                  {m["dog.book"]}
                 </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-
     </div>
   );
 }

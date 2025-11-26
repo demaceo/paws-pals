@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import type { Dog } from "@/lib/dogs";
+import { useI18n } from "@/app/i18n/LocaleProvider";
 
 type ActionState = { ok: boolean; error?: string; dogName?: string };
 
@@ -14,18 +15,20 @@ type Props = {
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  const { t } = useI18n();
   return (
     <button
       type="submit"
       disabled={pending}
       className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500 disabled:opacity-60 md:w-auto"
     >
-      {pending ? "Submitting…" : "Submit inquiry"}
+      {pending ? t("form.submitting") : t("form.submit")}
     </button>
   );
 }
 
 export default function AdoptionModal({ dog, action }: Props) {
+  const { t, locale } = useI18n();
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -84,7 +87,7 @@ export default function AdoptionModal({ dog, action }: Props) {
         onClick={() => setOpen(true)}
         className="rounded-full bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
       >
-        Start adoption
+        {t("dog.adopt")}
       </button>
 
       {open && (
@@ -106,17 +109,15 @@ export default function AdoptionModal({ dog, action }: Props) {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 id="adopt-title" className="text-xl font-semibold tracking-tight">
-                  Adopt {dog.name}
+                  {t("modal.title", { name: dog.name })}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                  Tell us a bit about you and your home. We’ll get back within 24–48 hours.
-                </p>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("modal.subtitle")}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 className="rounded-full border border-black/10 bg-white px-3 py-1 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-800 dark:text-zinc-200"
-                aria-label="Close"
+                aria-label={t("modal.close")}
               >
                 ✕
               </button>
@@ -125,34 +126,35 @@ export default function AdoptionModal({ dog, action }: Props) {
             <form action={formAction} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
               <input type="hidden" name="dogId" value={dog.id} />
               <input type="hidden" name="dogName" value={dog.name} />
+              <input type="hidden" name="locale" value={locale} />
               <div className="md:col-span-1">
                 <label className="mb-1 block text-xs text-zinc-500" htmlFor="name">
-                  Full name
+                  {t("form.name")}
                 </label>
                 <input
                   id="name"
                   name="name"
                   required
-                  placeholder="Jane Doe"
+                  placeholder={t("form.name.placeholder")}
                   className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
                 />
               </div>
               <div className="md:col-span-1">
                 <label className="mb-1 block text-xs text-zinc-500" htmlFor="email">
-                  Email
+                  {t("form.email")}
                 </label>
                 <input
                   id="email"
                   name="email"
                   type="email"
                   required
-                  placeholder="you@example.com"
+                  placeholder={t("form.email.placeholder")}
                   className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
                 />
               </div>
               <div className="md:col-span-1">
                 <label className="mb-1 block text-xs text-zinc-500" htmlFor="phone">
-                  Phone
+                  {t("form.phone")}
                 </label>
                 <input
                   id="phone"
@@ -161,19 +163,19 @@ export default function AdoptionModal({ dog, action }: Props) {
                   inputMode="numeric"
                   value={phone}
                   onChange={(e) => onPhoneChange(e.target.value)}
-                  placeholder="(555) 555-1234"
+                  placeholder={t("form.phone.placeholder")}
                   className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
                 />
               </div>
               <div className="md:col-span-2">
                 <label className="mb-1 block text-xs text-zinc-500" htmlFor="message">
-                  Tell us about your home/environment
+                  {t("form.message")}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows={4}
-                  placeholder="Yard or nearby park? Any other pets? Daily schedule?"
+                  placeholder={t("form.message.placeholder")}
                   className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
                 />
               </div>
@@ -190,7 +192,7 @@ export default function AdoptionModal({ dog, action }: Props) {
             )}
             {state.ok && (
               <div className="mt-4 rounded-lg bg-emerald-600/10 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-600/15 dark:text-emerald-300">
-                Inquiry sent! Redirecting…
+                {t("form.success")}
               </div>
             )}
           </div>
