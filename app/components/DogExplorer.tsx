@@ -13,7 +13,9 @@ function ageToMonths(age: string): number | null {
   return null;
 }
 
-function getAgeGroup(months: number | null): "puppy" | "adult" | "senior" | null {
+function getAgeGroup(
+  months: number | null
+): "puppy" | "adult" | "senior" | null {
   if (months == null) return null;
   if (months < 12) return "puppy";
   if (months <= 84) return "adult"; // up to 7 years
@@ -25,35 +27,35 @@ type Props = { dogs: Dog[] };
 export default function DogExplorer({ dogs }: Props) {
   const { t } = useI18n();
   const [q, setQ] = useState("");
-  const [breed, setBreed] = useState("All");
-  const [ageGroup, setAgeGroup] = useState(t("filters.any"));
+  const [breed, setBreed] = useState("all");
+  const [ageGroup, setAgeGroup] = useState("any");
 
   const breeds = useMemo(() => {
     const set = new Set<string>();
     dogs.forEach((d) => set.add(d.breed));
-    return ["All", ...Array.from(set).sort()];
+    return ["all", ...Array.from(set).sort()];
   }, [dogs]);
 
   const filtered = useMemo(() => {
     const qLower = q.trim().toLowerCase();
     return dogs.filter((d) => {
-      if (qLower && !(`${d.name} ${d.breed}`.toLowerCase().includes(qLower))) {
+      if (qLower && !`${d.name} ${d.breed}`.toLowerCase().includes(qLower)) {
         return false;
       }
-      if (breed !== "All" && d.breed !== breed) return false;
-      if (ageGroup !== t("filters.any")) {
+      if (breed !== "all" && d.breed !== breed) return false;
+      if (ageGroup !== "any") {
         const months = ageToMonths(d.age);
         const g = getAgeGroup(months);
         if (
-          (ageGroup === t("filters.puppy") && g !== "puppy") ||
-          (ageGroup === t("filters.adult") && g !== "adult") ||
-          (ageGroup === t("filters.senior") && g !== "senior")
+          (ageGroup === "puppy" && g !== "puppy") ||
+          (ageGroup === "adult" && g !== "adult") ||
+          (ageGroup === "senior" && g !== "senior")
         )
           return false;
       }
       return true;
     });
-  }, [dogs, q, breed, ageGroup, t]);
+  }, [dogs, q, breed, ageGroup]);
 
   return (
     <>
@@ -62,7 +64,9 @@ export default function DogExplorer({ dogs }: Props) {
         <div className="rounded-2xl border border-black/5 bg-white p-4 shadow-sm dark:border-white/10 dark:bg-zinc-900">
           <div className="grid gap-3 md:grid-cols-3">
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">{t("filters.searchLabel")}</label>
+              <label className="mb-1 block text-xs text-zinc-500">
+                {t("filters.searchLabel")}
+              </label>
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
@@ -71,27 +75,34 @@ export default function DogExplorer({ dogs }: Props) {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">{t("filters.breed")}</label>
+              <label className="mb-1 block text-xs text-zinc-500">
+                {t("filters.breed")}
+              </label>
               <select
                 value={breed}
                 onChange={(e) => setBreed(e.target.value)}
                 className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-zinc-950"
               >
                 {breeds.map((b) => (
-                  <option key={b}>{b}</option>
+                  <option key={b} value={b}>
+                    {b === "all" ? t("filters.all") : b}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">{t("filters.age")}</label>
+              <label className="mb-1 block text-xs text-zinc-500">
+                {t("filters.age")}
+              </label>
               <select
                 value={ageGroup}
                 onChange={(e) => setAgeGroup(e.target.value)}
                 className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm dark:border-white/15 dark:bg-zinc-950"
               >
-                {[t("filters.any"), t("filters.puppy"), t("filters.adult"), t("filters.senior")].map((a) => (
-                  <option key={a}>{a}</option>
-                ))}
+                <option value="any">{t("filters.any")}</option>
+                <option value="puppy">{t("filters.puppy")}</option>
+                <option value="adult">{t("filters.adult")}</option>
+                <option value="senior">{t("filters.senior")}</option>
               </select>
             </div>
           </div>
@@ -101,7 +112,9 @@ export default function DogExplorer({ dogs }: Props) {
       {/* Grid */}
       <section id="dogs" className="mx-auto mt-8 max-w-7xl px-6">
         {filtered.length === 0 ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">{t("grid.empty")}</p>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            {t("grid.empty")}
+          </p>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((dog) => (

@@ -1,14 +1,23 @@
 import Link from "next/link";
-import { getLocale, getMessages } from "@/lib/i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { getMessages, format } from "@/lib/i18n-messages";
 
-export default async function ThankYou({ searchParams }: { searchParams: { dog?: string } }) {
+export default async function ThankYou({
+  searchParams,
+}: {
+  searchParams: { dog?: string };
+}) {
   const dog = searchParams?.dog ?? "this dog";
   const locale = await getLocale();
   const m = getMessages(locale);
   return (
     <div className="mx-auto max-w-2xl px-6 py-16 text-center">
-      <h1 className="text-3xl font-semibold tracking-tight">{m["thanks.title"]}</h1>
-      <p className="mt-3 text-zinc-600 dark:text-zinc-400">{m["thanks.body"].replace("{dog}", dog)}</p>
+      <h1 className="text-3xl font-semibold tracking-tight">
+        {m["thanks.title"]}
+      </h1>
+      <p className="mt-3 text-zinc-600 dark:text-zinc-400">
+        {format(m["thanks.body"], { dog })}
+      </p>
       <div className="mt-6 flex items-center justify-center gap-3">
         <Link
           href="/"

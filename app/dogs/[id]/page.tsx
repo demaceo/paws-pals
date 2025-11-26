@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
 import AdoptionModal from "@/app/components/AdoptionModal";
-import { getLocale, getMessages, type Locale } from "@/lib/i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { getMessages, format, type Locale } from "@/lib/i18n-messages";
 
 export async function generateStaticParams() {
   return getDogs().map((d) => ({ id: d.id }));
@@ -31,15 +32,20 @@ export default async function DogPage({
   const dog = getDog(id);
   if (!dog) return notFound();
 
-  const gallery = dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
+  const gallery =
+    dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
   const locale = await getLocale();
   const m = getMessages(locale);
 
   type ActionState = { ok: boolean; error?: string; dogName?: string };
 
-  async function adoptAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  async function adoptAction(
+    _prevState: ActionState,
+    formData: FormData
+  ): Promise<ActionState> {
     "use server";
-    const submittedLocale = (String(formData.get("locale") || locale) as Locale) || "en";
+    const submittedLocale =
+      (String(formData.get("locale") || locale) as Locale) || "en";
     const mm = getMessages(submittedLocale);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
@@ -62,7 +68,9 @@ export default async function DogPage({
     <div className="bg-zinc-50 pb-20 pt-10 dark:bg-black">
       <section className="mx-auto max-w-6xl px-6">
         <nav className="mb-6 text-sm text-zinc-600 dark:text-zinc-400">
-          <Link className="hover:underline" href="/">← {m["nav.backList"]}</Link>
+          <Link className="hover:underline" href="/">
+            ← {m["nav.backList"]}
+          </Link>
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-5">
@@ -82,8 +90,18 @@ export default async function DogPage({
               {gallery.length > 1 && (
                 <div className="mt-2 grid grid-cols-4 gap-2">
                   {gallery.slice(0, 4).map((src, i) => (
-                    <div key={i} className="relative aspect-4/3 w-full overflow-hidden rounded-xl">
-                      <Image src={src} alt={`${dog.name} ${i + 1}`} fill sizes="25vw" className="object-cover" unoptimized />
+                    <div
+                      key={i}
+                      className="relative aspect-4/3 w-full overflow-hidden rounded-xl"
+                    >
+                      <Image
+                        src={src}
+                        alt={`${dog.name} ${i + 1}`}
+                        fill
+                        sizes="25vw"
+                        className="object-cover"
+                        unoptimized
+                      />
                     </div>
                   ))}
                 </div>
@@ -97,7 +115,9 @@ export default async function DogPage({
               <h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
                 {dog.name}
               </h1>
-              <p className="mt-1 text-zinc-600 dark:text-zinc-400">{dog.breed}</p>
+              <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+                {dog.breed}
+              </p>
 
               <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
@@ -118,7 +138,9 @@ export default async function DogPage({
                 </div>
               </dl>
 
-              <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-zinc-500">{m["dog.about"].replace("{name}", dog.name)}</h2>
+              <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-zinc-500">
+                {format(m["dog.about"], { name: dog.name })}
+              </h2>
               <p className="mt-2 whitespace-pre-line text-base leading-7 text-zinc-700 dark:text-zinc-300">
                 {dog.description}
               </p>
@@ -136,7 +158,6 @@ export default async function DogPage({
           </div>
         </div>
       </section>
-
     </div>
   );
 }
