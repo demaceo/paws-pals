@@ -25,12 +25,16 @@ export function translateAge(age: string, messages: Messages): string {
 
     if (unit.startsWith("year")) {
         const key = count === 1 ? "attr.year" : "attr.years";
-        return (messages[key] || age).replace("{count}", String(count));
+        const template = messages[key];
+        if (!template) return age;
+        return template.replace("{count}", String(count));
     }
 
     if (unit.startsWith("month")) {
         const key = count === 1 ? "attr.month" : "attr.months";
-        return (messages[key] || age).replace("{count}", String(count));
+        const template = messages[key];
+        if (!template) return age;
+        return template.replace("{count}", String(count));
     }
 
     return age;
