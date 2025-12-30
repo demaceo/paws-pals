@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useActionState } from "react";
+import { useEffect, useRef, useState, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import type { Dog } from "@/lib/dogs";
 import { useI18n } from "@/app/i18n/LocaleProvider";
+import { formatPhoneUS } from "@/lib/form-utils";
 
 type ActionState = { ok: boolean; error?: string; dogName?: string };
 
@@ -34,8 +35,7 @@ export default function AdoptionModal({ dog, action }: Props) {
   const router = useRouter();
 
   // useActionState to capture server action result
-  const initialState = useMemo<ActionState>(() => ({ ok: false }), []);
-  const [state, formAction] = useActionState(action, initialState);
+  const [state, formAction] = useActionState(action, { ok: false });
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -66,19 +66,7 @@ export default function AdoptionModal({ dog, action }: Props) {
 
   // Phone masking (US): (XXX) XXX-XXXX
   const [phone, setPhone] = useState("");
-  function formatPhone(input: string) {
-    const digits = input.replace(/\D/g, "").slice(0, 10);
-    const parts = [] as string[];
-    if (digits.length > 0) parts.push("(" + digits.slice(0, 3));
-    if (digits.length >= 4) parts[0] += ") ";
-    if (digits.length >= 4) parts.push(digits.slice(3, 6));
-    if (digits.length >= 7) parts[1] += "-";
-    if (digits.length >= 7) parts.push(digits.slice(6, 10));
-    return parts.join("");
-  }
-  function onPhoneChange(v: string) {
-    setPhone(formatPhone(v));
-  }
+  const onPhoneChange = (v: string) => setPhone(formatPhoneUS(v));
 
   return (
     <>
@@ -92,7 +80,7 @@ export default function AdoptionModal({ dog, action }: Props) {
 
       {open && (
         <div
-          className="fixed inset-0 z-60 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           aria-labelledby="adopt-title"
           role="dialog"
           aria-modal="true"
@@ -104,7 +92,7 @@ export default function AdoptionModal({ dog, action }: Props) {
           <div
             ref={dialogRef}
             tabIndex={-1}
-            className="relative z-61 w-full max-w-xl rounded-3xl border border-black/10 bg-white p-6 shadow-xl outline-none dark:border-white/15 dark:bg-zinc-900"
+            className="relative z-50 w-full max-w-xl rounded-3xl border border-black/10 bg-white p-6 shadow-xl outline-none dark:border-white/15 dark:bg-zinc-900"
           >
             <div className="flex items-start justify-between gap-4">
               <div>

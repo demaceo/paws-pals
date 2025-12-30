@@ -3,6 +3,7 @@ import DogExplorer from "./components/DogExplorer";
 import { getDogs } from "@/lib/dogs";
 import { getLocale } from "@/lib/i18n-server";
 import { getMessages } from "@/lib/i18n-messages";
+import { buttonStyles, stepBadgeStyles } from "@/lib/styles";
 
 export default async function Home() {
   const dogs = getDogs();
@@ -29,16 +30,10 @@ export default async function Home() {
               {m["hero.subtitle"]}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="#dogs"
-                className="rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:shadow-xl hover:shadow-orange-500/40 hover:from-orange-600 hover:to-orange-700 dark:from-orange-500 dark:to-orange-600 dark:shadow-orange-600/20 dark:hover:shadow-orange-600/30"
-              >
+              <a href="#dogs" className={buttonStyles.primary}>
                 {m["hero.explore"]}
               </a>
-              <Link
-                href="#how-it-works"
-                className="rounded-full border-2 border-orange-200 bg-white px-6 py-3 text-sm font-semibold text-orange-950 shadow-sm transition hover:border-orange-300 hover:bg-orange-50 dark:border-orange-900/50 dark:bg-zinc-900 dark:text-orange-100 dark:hover:border-orange-800 dark:hover:bg-zinc-800"
-              >
+              <Link href="#how-it-works" className={buttonStyles.secondary}>
                 {m["hero.how"]}
               </Link>
             </div>
@@ -88,9 +83,7 @@ export default async function Home() {
         <ol className="mt-6 grid gap-4 sm:grid-cols-3">
           <li className="rounded-2xl border border-orange-100 bg-linear-to-br from-white to-orange-50/30 p-5 shadow-md shadow-orange-100/20 transition hover:shadow-lg dark:border-orange-900/30 dark:from-zinc-900 dark:to-orange-950/20 dark:shadow-orange-950/20">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-orange-500 to-orange-600 text-sm font-bold text-white shadow-md shadow-orange-500/30">
-                1
-              </span>
+              <span className={stepBadgeStyles.orange}>1</span>
               <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                 {m["how.1.title"]}
               </h3>
@@ -101,9 +94,7 @@ export default async function Home() {
           </li>
           <li className="rounded-2xl border border-purple-100 bg-linear-to-br from-white to-purple-50/30 p-5 shadow-md shadow-purple-100/20 transition hover:shadow-lg dark:border-purple-900/30 dark:from-zinc-900 dark:to-purple-950/20 dark:shadow-purple-950/20">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-purple-500 to-purple-600 text-sm font-bold text-white shadow-md shadow-purple-500/30">
-                2
-              </span>
+              <span className={stepBadgeStyles.purple}>2</span>
               <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                 {m["how.2.title"]}
               </h3>
@@ -114,9 +105,7 @@ export default async function Home() {
           </li>
           <li className="rounded-2xl border border-emerald-100 bg-linear-to-br from-white to-emerald-50/30 p-5 shadow-md shadow-emerald-100/20 transition hover:shadow-lg dark:border-emerald-900/30 dark:from-zinc-900 dark:to-emerald-950/20 dark:shadow-emerald-950/20">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-emerald-500 to-emerald-600 text-sm font-bold text-white shadow-md shadow-emerald-500/30">
-                3
-              </span>
+              <span className={stepBadgeStyles.emerald}>3</span>
               <h3 className="font-semibold text-zinc-900 dark:text-zinc-50">
                 {m["how.3.title"]}
               </h3>

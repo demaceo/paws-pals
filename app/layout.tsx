@@ -6,6 +6,7 @@ import { getLocale } from "@/lib/i18n-server";
 import { getMessages, format } from "@/lib/i18n-messages";
 import LocaleProvider from "@/app/i18n/LocaleProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import { buttonStyles } from "@/lib/styles";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,10 +76,7 @@ export default async function RootLayout({
               </nav>
               <div className="flex items-center gap-3">
                 <LanguageSwitcher />
-                <Link
-                  href="/#dogs"
-                  className="rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange-500/30 transition hover:shadow-lg hover:from-orange-600 hover:to-orange-700"
-                >
+                <Link href="/#dogs" className={buttonStyles.primarySmall}>
                   {m["nav.adopt"]}
                 </Link>
               </div>
