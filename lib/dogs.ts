@@ -23,13 +23,13 @@ export const dogs: Dog[] = [
     location: "Sunrise Sanctuary, PR",
     description:
       "Meet Caramelo! More details coming soon. This sweet pup is waiting for their forever home.",
-    image: "/dogs/Caramelo /IMG_3146.JPG",
+    image: "/dogs/Caramelo/IMG_3146.JPG",
     gallery: [
-      "/dogs/Caramelo /IMG_3146.JPG",
-      "/dogs/Caramelo /IMG_3142.jpg",
-      "/dogs/Caramelo /IMG_3143.jpg",
-      "/dogs/Caramelo /IMG_3144.jpg",
-      "/dogs/Caramelo /IMG_3145.jpg",
+      "/dogs/Caramelo/IMG_3146.JPG",
+      "/dogs/Caramelo/IMG_3142.jpg",
+      "/dogs/Caramelo/IMG_3143.jpg",
+      "/dogs/Caramelo/IMG_3144.jpg",
+      "/dogs/Caramelo/IMG_3145.jpg",
     ],
   },
   {
@@ -42,11 +42,11 @@ export const dogs: Dog[] = [
     location: "Sunrise Sanctuary, PR",
     description:
       "Meet Chocolate! More details coming soon. This sweet pup is waiting for their forever home.",
-    image: "/dogs/Chocolate /IMG_3135.jpg",
+    image: "/dogs/Chocolate/IMG_3135.jpg",
     gallery: [
-      "/dogs/Chocolate /IMG_3135.jpg",
-      "/dogs/Chocolate /IMG_3136.jpg",
-      "/dogs/Chocolate /IMG_3137.jpg",
+      "/dogs/Chocolate/IMG_3135.jpg",
+      "/dogs/Chocolate/IMG_3136.jpg",
+      "/dogs/Chocolate/IMG_3137.jpg",
     ],
   },
   {
@@ -163,15 +163,15 @@ export const dogs: Dog[] = [
     location: "Sunrise Sanctuary, PR",
     description:
       "Meet Sebastian! More details coming soon. This sweet pup is waiting for their forever home.",
-    image: "/dogs/Sebastian /IMG_3107.jpg",
+    image: "/dogs/Sebastian/IMG_3107.jpg",
     gallery: [
-      "/dogs/Sebastian /IMG_3107.jpg",
-      "/dogs/Sebastian /IMG_3108.jpg",
-      "/dogs/Sebastian /IMG_3109.jpg",
-      "/dogs/Sebastian /IMG_3110.jpg",
-      "/dogs/Sebastian /IMG_3111.jpg",
-      "/dogs/Sebastian /IMG_3112.jpg",
-      "/dogs/Sebastian /IMG_3113.jpg",
+      "/dogs/Sebastian/IMG_3107.jpg",
+      "/dogs/Sebastian/IMG_3108.jpg",
+      "/dogs/Sebastian/IMG_3109.jpg",
+      "/dogs/Sebastian/IMG_3110.jpg",
+      "/dogs/Sebastian/IMG_3111.jpg",
+      "/dogs/Sebastian/IMG_3112.jpg",
+      "/dogs/Sebastian/IMG_3113.jpg",
     ],
   },
   {
