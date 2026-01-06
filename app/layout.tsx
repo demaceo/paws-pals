@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getLocale } from "@/lib/i18n-server";
 import { getMessages, format } from "@/lib/i18n-messages";
 import LocaleProvider from "@/app/i18n/LocaleProvider";
 import LanguageSwitcher from "@/app/components/LanguageSwitcher";
+import { buttonStyles } from "@/lib/styles";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,9 +53,12 @@ export default async function RootLayout({
           <header className="sticky top-0 z-50 border-b border-orange-100/50 bg-white/90 shadow-sm backdrop-blur-xl dark:border-orange-900/20 dark:bg-black/80">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
               <Link href="/" className="flex items-center gap-2">
-                <span
-                  className="inline-block h-8 w-8 rounded-full bg-linear-to-br from-orange-500 to-orange-600 shadow-md shadow-orange-500/30"
-                  aria-hidden
+                <Image
+                  src="/oaat-logo.png"
+                  alt="One At A Time Rescue"
+                  width={32}
+                  height={32}
+                  className="h-8 w-8"
                 />
                 <span className="text-lg font-semibold tracking-tight">
                   {m["brand.name"]}
@@ -75,10 +80,7 @@ export default async function RootLayout({
               </nav>
               <div className="flex items-center gap-3">
                 <LanguageSwitcher />
-                <Link
-                  href="/#dogs"
-                  className="rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange-500/30 transition hover:shadow-lg hover:from-orange-600 hover:to-orange-700"
-                >
+                <Link href="/#dogs" className={buttonStyles.primarySmall}>
                   {m["nav.adopt"]}
                 </Link>
               </div>

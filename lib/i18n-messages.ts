@@ -7,14 +7,14 @@ export type Messages = Record<string, string>;
 
 const en: Messages = {
     // Brand / Nav
-    "brand.name": "One At A Time",
+    "brand.name": "One At A Time Rescue",
     "nav.home": "Home",
     "nav.dogs": "Dogs",
     "nav.how": "How it works",
     "nav.adopt": "Adopt",
 
     // Footer
-    "footer.copyright": "© {year} One At A Time. All rights reserved.",
+    "footer.copyright": "© {year} One At A Time Rescue. All rights reserved.",
     "footer.builtWith": "Built with Next.js and Tailwind CSS.",
 
     // Hero
@@ -104,14 +104,14 @@ const en: Messages = {
 
 const es: Messages = {
     // Brand / Nav
-    "brand.name": "Patas y Amigos",
+    "brand.name": "One At A Time Rescue",
     "nav.home": "Inicio",
     "nav.dogs": "Perros",
     "nav.how": "Cómo funciona",
     "nav.adopt": "Adoptar",
 
     // Footer
-    "footer.copyright": "© {year} Patas y Amigos. Todos los derechos reservados.",
+    "footer.copyright": "© {year} One At A Time Rescue. Todos los derechos reservados.",
     "footer.builtWith": "Creado con Next.js y Tailwind CSS.",
 
     // Hero
