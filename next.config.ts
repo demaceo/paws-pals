@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "place.dog" },
       { protocol: "https", hostname: "images.dog.ceo" },
       { protocol: "https", hostname: "picsum.photos" },
+      { protocol: "https", hostname: "res.cloudinary.com" }, // Cloudinary CDN
     ],
   },
 };
