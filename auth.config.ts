@@ -3,7 +3,6 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/validations";
-import { NextResponse } from "next/server";
 
 export const authConfig: NextAuthConfig = {
     providers: [
@@ -49,19 +48,10 @@ export const authConfig: NextAuthConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const isOnAdmin = nextUrl.pathname.startsWith("/admin");
-            const isOnLogin = nextUrl.pathname === "/admin/login";
 
-            if (isOnAdmin && !isOnLogin) {
-                if (!isLoggedIn) return false;
-                return true;
-            }
-
-            if (isOnLogin && isLoggedIn) {
-                return NextResponse.redirect(new URL("/admin", nextUrl));
-            }
-
-            return true;
+            // Since login page is excluded from proxy matcher,
+            // this callback only runs for protected admin routes
+            return isLoggedIn;
         },
     },
 };

@@ -4,5 +4,9 @@ import type { NextRequest } from "next/server";
 export default auth;
 
 export const config = {
-    matcher: ["/admin/:path*"],
+    matcher: [
+        // Match all admin routes except login
+        "/admin/((?!login).*)",
+        "/admin",
+    ],
 };
