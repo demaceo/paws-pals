@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/validations";
+import { NextResponse } from "next/server";
 
 export const authConfig: NextAuthConfig = {
     providers: [
@@ -57,7 +58,7 @@ export const authConfig: NextAuthConfig = {
             }
 
             if (isOnLogin && isLoggedIn) {
-                return Response.redirect(new URL("/admin", nextUrl));
+                return NextResponse.redirect(new URL("/admin", nextUrl));
             }
 
             return true;
