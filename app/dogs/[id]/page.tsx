@@ -76,7 +76,7 @@ export default async function DogPage({
   }
 
   return (
-    <div className="bg-zinc-50 pb-20 pt-10 dark:bg-black">
+    <div className="bg-zinc-50 pb-20 pt-10 dark:bg-zinc-950">
       <section className="mx-auto max-w-6xl px-6">
         <nav className="mb-6 text-sm text-zinc-600 dark:text-zinc-400">
           <Link className="hover:underline" href="/">
@@ -87,8 +87,8 @@ export default async function DogPage({
         <div className="grid gap-8 lg:grid-cols-5">
           {/* Gallery */}
           <div className="lg:col-span-3">
-            <div className="overflow-hidden rounded-3xl border border-black/5 bg-white p-2 shadow-sm dark:border-white/10 dark:bg-zinc-900">
-              <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl">
+            <div className="overflow-hidden rounded-3xl border border-orange-100 bg-white p-2 shadow-sm dark:border-orange-900/30 dark:bg-zinc-800">
+              <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900">
                 <Image
                   src={dog.image}
                   alt={dog.name}
@@ -102,7 +102,7 @@ export default async function DogPage({
                   {gallery.slice(0, 4).map((src, i) => (
                     <div
                       key={i}
-                      className="relative aspect-4/3 w-full overflow-hidden rounded-xl"
+                      className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900"
                     >
                       <Image
                         src={src}
@@ -120,7 +120,7 @@ export default async function DogPage({
 
           {/* Details */}
           <div className="lg:col-span-2">
-            <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+            <div className="rounded-3xl border border-orange-100 bg-white p-6 shadow-sm dark:border-orange-900/30 dark:bg-zinc-800">
               <h1 className="text-3xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50">
                 {dog.name}
               </h1>
@@ -129,29 +129,41 @@ export default async function DogPage({
               </p>
 
               <dl className="mt-6 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">{m["dog.age"]}</dt>
-                  <dd className="font-medium">{translateAge(dog.age, m)}</dd>
+                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-900/60">
+                  <dt className="text-zinc-500 dark:text-zinc-400">
+                    {m["dog.age"]}
+                  </dt>
+                  <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                    {translateAge(dog.age, m)}
+                  </dd>
                 </div>
-                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">{m["dog.sex"]}</dt>
-                  <dd className="font-medium">
+                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-900/60">
+                  <dt className="text-zinc-500 dark:text-zinc-400">
+                    {m["dog.sex"]}
+                  </dt>
+                  <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                     {translateAttribute(dog.sex, m)}
                   </dd>
                 </div>
-                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">{m["dog.size"]}</dt>
-                  <dd className="font-medium">
+                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-900/60">
+                  <dt className="text-zinc-500 dark:text-zinc-400">
+                    {m["dog.size"]}
+                  </dt>
+                  <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                     {translateAttribute(dog.size, m)}
                   </dd>
                 </div>
-                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-800/50">
-                  <dt className="text-zinc-500">{m["dog.location"]}</dt>
-                  <dd className="font-medium">{dog.location}</dd>
+                <div className="rounded-xl bg-zinc-50 p-3 dark:bg-zinc-900/60">
+                  <dt className="text-zinc-500 dark:text-zinc-400">
+                    {m["dog.location"]}
+                  </dt>
+                  <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                    {dog.location}
+                  </dd>
                 </div>
               </dl>
 
-              <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-zinc-500">
+              <h2 className="mt-6 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                 {format(m["dog.about"], { name: dog.name })}
               </h2>
               <p className="mt-2 whitespace-pre-line text-base leading-7 text-zinc-700 dark:text-zinc-300">
@@ -162,7 +174,7 @@ export default async function DogPage({
                 <AdoptionModal dog={dog} action={adoptAction} />
                 <a
                   href="#visit"
-                  className="rounded-full border border-black/10 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-950 dark:text-zinc-50"
+                  className="rounded-full border-2 border-orange-200 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm transition hover:border-orange-300 hover:bg-orange-50 dark:border-orange-900/50 dark:bg-zinc-900 dark:text-zinc-50 dark:hover:border-orange-800 dark:hover:bg-zinc-800"
                 >
                   {m["dog.book"]}
                 </a>

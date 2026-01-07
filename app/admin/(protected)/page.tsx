@@ -5,16 +5,17 @@ import DogManagementTable from "../components/DogManagementTable";
 export default async function AdminDashboardPage() {
   const dogs = await prisma.dog.findMany({
     orderBy: { name: "asc" },
-    select: {
-      id: true,
-      name: true,
-      breed: true,
-      age: true,
-      sex: true,
-      size: true,
-      location: true,
-      image: true,
-    },
+      select: {
+        id: true,
+        name: true,
+        breed: true,
+        age: true,
+        sex: true,
+        size: true,
+        status: true,
+        location: true,
+        image: true,
+      },
   });
 
   return (

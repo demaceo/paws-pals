@@ -27,15 +27,17 @@ export default function ThemeProvider({
   // Initialize theme from localStorage or system preference (computed on first render)
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
-    
+
     const savedTheme = localStorage.getItem("theme") as Theme | null;
     if (savedTheme) {
       // Apply immediately to avoid flash
       document.documentElement.classList.toggle("dark", savedTheme === "dark");
       return savedTheme;
     }
-    
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
     // Apply immediately to avoid flash
     document.documentElement.classList.toggle("dark", prefersDark);
     return prefersDark ? "dark" : "light";
