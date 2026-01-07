@@ -1,4 +1,4 @@
-# 🐾 Paws & Pals - Dog Adoption Platform
+# 🐾 One At A Time - Dog Adoption Platform
 
 A modern dog adoption website with an integrated admin dashboard for managing dog profiles. Built with Next.js 16, Prisma, NextAuth.js, and Tailwind CSS v4.
 

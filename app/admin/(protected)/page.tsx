@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import DogManagementTable from "./components/DogManagementTable";
+import DogManagementTable from "../components/DogManagementTable";
 
 export default async function AdminDashboardPage() {
   const dogs = await prisma.dog.findMany({

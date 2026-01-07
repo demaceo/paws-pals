@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import DogForm from "../../components/DogForm";
+import DogForm from "../../../../components/DogForm";
 
 export default async function EditDogPage({
   params,

@@ -23,7 +23,7 @@ export default async function AdminLayout({
                 href="/admin"
                 className="flex items-center px-2 text-xl font-bold text-orange-600"
               >
-                🐾 Paws & Pals Admin
+                🐾 Admin
               </Link>
               <div className="ml-6 flex space-x-4">
                 <Link
