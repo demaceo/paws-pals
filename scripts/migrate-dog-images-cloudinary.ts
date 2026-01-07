@@ -144,12 +144,59 @@ async function verifyCloudinary() {
   try {
     await cloudinary.api.ping();
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unknown Cloudinary error";
+    const message = describeCloudinaryError(error);
+    const source = cloudinaryUrl
+      ? "CLOUDINARY_URL"
+      : "CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET";
     throw new Error(
-      `Cloudinary credentials failed verification: ${message}. Check CLOUDINARY_URL or the CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET values.`
+      `Cloudinary credentials failed verification (${source}): ${message}. Check your Cloudinary credentials and account.`
     );
   }
+}
+
+function describeCloudinaryError(error: unknown) {
+  if (error instanceof Error) {
+    return error.message || "Unknown Cloudinary error";
+  }
+
+  if (typeof error === "string") {
+    return error;
+  }
+
+  if (error && typeof error === "object") {
+    const typedError = error as {
+      message?: unknown;
+      http_code?: unknown;
+      statusCode?: unknown;
+      error?: { message?: unknown; http_code?: unknown };
+    };
+
+    const nestedMessage =
+      typeof typedError.error?.message === "string"
+        ? typedError.error.message
+        : undefined;
+    const message =
+      typeof typedError.message === "string" ? typedError.message : undefined;
+    const httpCode =
+      typeof typedError.error?.http_code === "number"
+        ? typedError.error.http_code
+        : typeof typedError.http_code === "number"
+        ? typedError.http_code
+        : typeof typedError.statusCode === "number"
+        ? typedError.statusCode
+        : undefined;
+
+    const parts = [nestedMessage, message].filter(Boolean) as string[];
+    if (httpCode) {
+      parts.push(`HTTP ${httpCode}`);
+    }
+
+    if (parts.length > 0) {
+      return parts.join(" ");
+    }
+  }
+
+  return "Unknown Cloudinary error";
 }
 
 async function run() {
