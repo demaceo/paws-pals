@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Dog {
+  id          String   @id @default(cuid())
+  name        String
+  breed       String
+  age         String
+  sex         String   // "Male" or "Female"
+  size        String   // "Small", "Medium", or "Large"
+  location    String
+  description String
+  image       String   // Primary image path
+  gallery     String?  // JSON string of image paths array
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed password
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

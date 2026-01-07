@@ -42,3 +42,5 @@ next-env.d.ts
 
 # image backups
 /public/dogs-backup
+
+/lib/generated/prisma

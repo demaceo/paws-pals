@@ -8,7 +8,8 @@ import { getMessages, format, type Locale } from "@/lib/i18n-messages";
 import { translateAttribute, translateAge } from "@/lib/i18n-helpers";
 
 export async function generateStaticParams() {
-  return getDogs().map((d) => ({ id: d.id }));
+  const dogs = await getDogs();
+  return dogs.map((d) => ({ id: d.id }));
 }
 
 export async function generateMetadata({
@@ -17,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const dog = getDog(id);
+  const dog = await getDog(id);
   const locale = await getLocale();
   const m = getMessages(locale);
 
@@ -40,7 +41,7 @@ export default async function DogPage({
   params: Promise<{ id: string }>; // Next.js 16 dynamic APIs
 }) {
   const { id } = await params;
-  const dog = getDog(id);
+  const dog = await getDog(id);
   if (!dog) return notFound();
 
   const gallery =
@@ -55,8 +56,7 @@ export default async function DogPage({
     formData: FormData
   ): Promise<ActionState> {
     "use server";
-    const submittedLocale =
-      (String(formData.get("locale") || locale)) as Locale;
+    const submittedLocale = String(formData.get("locale") || locale) as Locale;
     const mm = getMessages(submittedLocale);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();

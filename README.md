@@ -1,75 +1,191 @@
-# One At A Time
+# 🐾 Paws & Pals - Dog Adoption Platform
 
-A dog adoption landing and profiles site, built with [Next.js](https://nextjs.org) (App Router) and Tailwind CSS v4.
+A modern dog adoption website with an integrated admin dashboard for managing dog profiles. Built with Next.js 16, Prisma, NextAuth.js, and Tailwind CSS v4.
 
-## Getting Started
+## ✨ Features
 
-First, install dependencies and run the development server:
+### Public Site
+
+- 🏠 Beautiful landing page with hero and dog grid
+- 🐕 Individual dog detail pages with galleries
+- 🔍 Filter dogs by sex, size, and more
+- 🌐 Bilingual support (English/Spanish)
+- 📱 Fully responsive design
+- 🌙 Dark mode support
+- 📝 Adoption inquiry forms
+
+### Admin Dashboard (New!)
+
+- 🔐 Secure authentication with NextAuth.js
+- ➕ Add new dogs with image uploads
+- ✏️ Edit existing dog information
+- 🗑️ Delete dogs from the system
+- 📊 Dashboard with statistics
+- 🖼️ Multi-image gallery support
+- 📱 Responsive admin interface
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm (recommended)
+- Database (Supabase/PostgreSQL/SQLite)
+
+### Installation
+
+1. **Clone and install dependencies:**
+
+   ```bash
+   pnpm install
+   ```
+
+2. **Set up your database:**
+   - See [DATABASE_SETUP.md](DATABASE_SETUP.md) for detailed instructions
+   - Recommended: Use Supabase (free tier available)
+
+3. **Configure environment variables:**
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database URL and credentials
+   ```
+
+4. **Run database migrations:**
+
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma generate
+   ```
+
+5. **Start development server:**
+
+   ```bash
+   pnpm dev
+   ```
+
+6. **Access the application:**
+   - Public site: <http://localhost:3000>
+   - Admin login: <http://localhost:3000/admin/login>
+
+## 📚 Documentation
+
+- **[QUICKSTART.md](QUICKSTART.md)** - Quick reference for common commands
+- **[ADMIN_SETUP.md](ADMIN_SETUP.md)** - Comprehensive admin setup guide
+- **[DATABASE_SETUP.md](DATABASE_SETUP.md)** - Database configuration options
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and data flow
+- **[TESTING_CHECKLIST.md](TESTING_CHECKLIST.md)** - Complete testing checklist
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - Implementation details
+
+## 🗂️ Project Structure
+
+```
+app/
+├── page.tsx                    # Homepage
+├── dogs/[id]/page.tsx          # Dog detail pages
+├── admin/                      # Admin dashboard
+│   ├── page.tsx               # Dashboard
+│   ├── login/page.tsx         # Admin login
+│   ├── dogs/new/page.tsx      # Add dog
+│   └── dogs/[id]/edit/page.tsx # Edit dog
+├── api/                        # API routes
+│   ├── dogs/                  # CRUD endpoints
+│   ├── upload/                # Image upload
+│   └── auth/                  # Authentication
+└── components/                 # React components
+
+lib/
+├── dogs.ts                     # Database queries
+├── prisma.ts                   # Prisma client
+├── validations.ts              # Zod schemas
+└── i18n-*.ts                   # Internationalization
+
+prisma/
+├── schema.prisma               # Database schema
+└── seed.ts                     # Seed data
+```
+
+## 🔐 Admin Dashboard
+
+### Default Credentials
+
+Check your `.env` file for admin credentials:
+
+- Email: Value of `ADMIN_EMAIL`
+- Password: Value of `ADMIN_PASSWORD`
+
+⚠️ **Important:** Change the default password before deployment!
+
+### Admin Features
+
+- **Dashboard:** View all dogs with statistics
+- **Add Dog:** Complete form with image upload
+- **Edit Dog:** Update any dog information
+- **Delete Dog:** Remove dogs from database
+- **Image Management:** Upload primary and gallery images
+
+### Admin URLs
+
+- Login: `/admin/login`
+- Dashboard: `/admin`
+- Add Dog: `/admin/dogs/new`
+- Edit Dog: `/admin/dogs/[id]/edit`
+
+## 🛠️ Technology Stack
+
+- **Framework:** Next.js 16 (App Router, React Server Components)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4
+- **Database:** Prisma ORM + PostgreSQL (Supabase)
+- **Authentication:** NextAuth.js v5
+- **Validation:** Zod
+- **Image Optimization:** Next.js Image + sharp
+- **Deployment Ready:** Vercel, Netlify, or any Node.js host
+
+## 🔧 Development
+
+### Common Commands
 
 ```bash
-npm install
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Development
+pnpm dev              # Start dev server
+pnpm build            # Build for production
+pnpm start            # Start production server
+pnpm lint             # Run ESLint
+
+# Database
+npx prisma studio     # Open database GUI
+npx prisma migrate dev # Create new migration
+npx prisma db seed    # Seed database
+npx prisma generate   # Generate Prisma client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
 
-Key routes and files:
+### Vercel (Recommended)
 
-- `app/page.tsx` — landing page with a hero and a responsive grid of dogs.
-- `app/dogs/[id]/page.tsx` — dog details page with gallery, facts, and CTAs.
-- `app/components/DogCard.tsx` — card component used in the grid.
-- `lib/dogs.ts` — dummy data source and types. Replace with real content later.
-- `next.config.ts` — configured to allow remote images from common placeholder domains.
+1. Push code to GitHub
+2. Import project to Vercel
+3. Add environment variables
+4. Deploy automatically
 
-Styling is via Tailwind v4 utilities defined in `app/globals.css`. Fonts use `next/font` (Geist).
+### Production Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Adding or updating dogs
-
-Dog data lives in `lib/dogs.ts` under the exported `dogs` array. Each entry must match this shape:
-
-```ts
-type Dog = {
-  id: string;        // URL-safe unique id, used in /dogs/[id]
-  name: string;
-  breed: string;
-  age: string;       // e.g., "2 years", "8 months"
-  sex: "Male" | "Female";
-  size: "Small" | "Medium" | "Large";
-  location: string;  // Sanctuary or city
-  description: string;
-  image: string;     // Primary image URL
-  gallery?: string[];// Optional additional images
-}
+```env
+DATABASE_URL=your-production-db-url
+NEXTAUTH_URL=https://yourdomain.com
+NEXTAUTH_SECRET=your-production-secret
+ADMIN_EMAIL=admin@yourdomain.com
+ADMIN_PASSWORD=secure-production-password
 ```
 
-Image domains must be allowed by Next Image. Update `next.config.ts` if you use new hosts.
+## 📝 Learn More
 
-## Production build
+- [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth.js Guide](https://next-auth.js.org)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [Supabase Setup](https://supabase.com/docs)
 
-```bash
-npm run build
-npm start
-```
+---
 
-## Learn more
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Made with ❤️ for rescue dogs from Sunrise Sanctuary, Puerto Rico**
