@@ -10,6 +10,7 @@ type DogFormData = {
   age: string;
   sex: "Male" | "Female";
   size: "Small" | "Medium" | "Large";
+  status: "Available" | "Pending" | "Adopted";
   location: string;
   description: string;
   image: string;
@@ -34,6 +35,7 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
     age: initialData?.age || "",
     sex: initialData?.sex || "Male",
     size: initialData?.size || "Medium",
+    status: initialData?.status || "Available",
     location: initialData?.location || "",
     description: initialData?.description || "",
     image: initialData?.image || "",
@@ -263,6 +265,31 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Status *
+          </label>
+          <select
+            id="status"
+            required
+            value={formData.status}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                status: e.target.value as "Available" | "Pending" | "Adopted",
+              })
+            }
+            className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+          >
+            <option value="Available">Available</option>
+            <option value="Pending">Pending</option>
+            <option value="Adopted">Adopted</option>
           </select>
         </div>
 
