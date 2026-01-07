@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useLayoutEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -24,29 +24,33 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  // Initialize theme from localStorage or system preference (computed on first render)
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "light";
+  // Always start with "light" to match server render and avoid hydration mismatch
+  const [theme, setTheme] = useState<Theme>("light");
+  const [mounted, setMounted] = useState(false);
 
+  // Initialize theme after mount to avoid hydration mismatch
+  useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as Theme | null;
     if (savedTheme) {
-      // Apply immediately to avoid flash
+      setTheme(savedTheme);
       document.documentElement.classList.toggle("dark", savedTheme === "dark");
-      return savedTheme;
+    } else {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      const initialTheme = prefersDark ? "dark" : "light";
+      setTheme(initialTheme);
+      document.documentElement.classList.toggle("dark", prefersDark);
     }
-
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    // Apply immediately to avoid flash
-    document.documentElement.classList.toggle("dark", prefersDark);
-    return prefersDark ? "dark" : "light";
-  });
+    setMounted(true);
+  }, []);
 
   // Update document class when theme changes after initialization
-  useLayoutEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, Fragment } from "react";
 
 export default function ConditionalLayout({
   header,
@@ -22,10 +22,10 @@ export default function ConditionalLayout({
 
   // For public routes, render header, main content, and footer
   return (
-    <>
+    <div>
       {header}
       <main>{children}</main>
       {footer}
-    </>
+    </div>
   );
 }
