@@ -7,6 +7,7 @@ import { dogSchema } from "@/lib/validations";
 export async function GET() {
     try {
         const dogs = await prisma.dog.findMany({
+            where: { status: { not: "Adopted" } },
             orderBy: { name: "asc" },
         });
 

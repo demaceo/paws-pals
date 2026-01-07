@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: Request) {
     try {
@@ -47,22 +52,32 @@ export async function POST(request: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Create directory for dog if it doesn't exist
-        const dogFolder = path.join(process.cwd(), "public", "dogs", dogName);
-        await mkdir(dogFolder, { recursive: true });
+        // Upload to Cloudinary
+        const result = await new Promise<any>((resolve, reject) => {
+            cloudinary.uploader
+                .upload_stream(
+                    {
+                        folder: `paws-pals/dogs/${dogName}`,
+                        resource_type: "image",
+                        transformation: [
+                            { width: 1200, height: 1200, crop: "limit" }, // Max dimensions
+                            { quality: "auto" }, // Automatic quality optimization
+                            { fetch_format: "auto" }, // Automatic format selection (WebP when supported)
+                        ],
+                    },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                )
+                .end(buffer);
+        });
 
-        // Generate unique filename
-        const extension = file.name.split(".").pop();
-        const filename = `${uuidv4()}.${extension}`;
-        const filepath = path.join(dogFolder, filename);
-
-        // Write file
-        await writeFile(filepath, buffer);
-
-        // Return relative path for storing in database
-        const relativePath = `/dogs/${dogName}/${filename}`;
-
-        return NextResponse.json({ path: relativePath });
+        // Return Cloudinary URL
+        return NextResponse.json({
+            path: result.secure_url,
+            publicId: result.public_id
+        });
     } catch (error) {
         console.error("Error uploading file:", error);
         return NextResponse.json(
