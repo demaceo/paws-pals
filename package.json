@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:cloudinary": "tsx scripts/migrate-dog-images-cloudinary.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

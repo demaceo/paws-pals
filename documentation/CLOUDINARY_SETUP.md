@@ -79,9 +79,19 @@ When you delete a dog from the admin dashboard, all associated images (primary +
 If you have existing dogs with local images (in `/public/dogs/`):
 
 1. The new uploads will automatically go to Cloudinary
-2. Existing dogs will continue to work with local images
-3. When you edit a dog and upload new images, they'll use Cloudinary
-4. You can manually re-upload images for existing dogs to migrate them
+2. Existing dogs will continue to work with local images until migrated
+3. Run the migration script to upload local images and update the database
+4. After verifying Cloudinary URLs, you can remove `/public/dogs/`
+
+Migration script:
+
+```bash
+# Preview changes
+pnpm migrate:cloudinary -- --dry-run
+
+# Run migration
+pnpm migrate:cloudinary
+```
 
 ## Troubleshooting
 
