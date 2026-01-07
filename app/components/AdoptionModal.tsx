@@ -21,7 +21,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-orange-500/30 transition hover:shadow-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-60 md:w-auto"
+      className="w-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-orange-500/30 transition hover:shadow-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-60 md:w-auto"
     >
       {pending ? t("form.submitting") : t("form.submit")}
     </button>
