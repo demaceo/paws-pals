@@ -23,7 +23,7 @@ export async function getDogs(): Promise<Dog[]> {
     orderBy: { name: "asc" },
   });
   // Parse gallery JSON string to array
-  return dogs.map((dog): Dog => ({
+  return dogs.map((dog: typeof dogs[number]): Dog => ({
     id: dog.id,
     name: dog.name,
     breed: dog.breed,

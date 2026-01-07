@@ -20,7 +20,7 @@ You have 3 options for setting up the database. Choose the one that works best f
 3. **Update .env File**
 
    ```env
-   DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres"
+   DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.bdcpvpizdnftcjabllri.supabase.co:5432/postgres"
    ```
 
 4. **Run Migrations**
@@ -43,7 +43,7 @@ You have 3 options for setting up the database. Choose the one that works best f
 
 - Docker Desktop installed
 
-### Steps
+### Setup Steps
 
 1. **Start PostgreSQL with Docker**
 
@@ -92,7 +92,7 @@ docker rm -f paws-pals-db
 
 ⚠️ **Not recommended for production** - SQLite has limitations with concurrent writes and some Prisma features.
 
-### Steps
+### Configuration Steps
 
 1. **Update prisma/schema.prisma**
 

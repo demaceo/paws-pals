@@ -11,7 +11,7 @@ export async function GET() {
         });
 
         // Parse gallery JSON strings to arrays
-        const parsedDogs = dogs.map((dog): typeof dog & { gallery?: string[] } => ({
+        const parsedDogs = dogs.map((dog: typeof dogs[number]): typeof dog & { gallery?: string[] } => ({
             ...dog,
             gallery: dog.gallery ? JSON.parse(dog.gallery) : undefined,
         }));
