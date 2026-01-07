@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "migrate:cloudinary": "tsx scripts/migrate-dog-images-cloudinary.ts"
+    "migrate:cloudinary": "tsx scripts/migrate-dog-images-cloudinary.ts",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
