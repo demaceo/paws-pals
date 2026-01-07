@@ -37,7 +37,15 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
     location: initialData?.location || "",
     description: initialData?.description || "",
     image: initialData?.image || "",
-    gallery: initialData?.gallery || [],
+    gallery: (() => {
+      if (!initialData?.gallery) return [];
+      if (Array.isArray(initialData.gallery)) return initialData.gallery;
+      try {
+        return JSON.parse(initialData.gallery as unknown as string);
+      } catch {
+        return [];
+      }
+    })(),
   });
 
   async function handleImageUpload(file: File): Promise<string> {
