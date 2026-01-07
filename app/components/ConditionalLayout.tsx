@@ -23,9 +23,9 @@ export default function ConditionalLayout({
   // For public routes, render header, main content, and footer
   return (
     <div>
-      {header}
+      <Fragment key="layout-header">{header}</Fragment>
       <main>{children}</main>
-      {footer}
+      <Fragment key="layout-footer">{footer}</Fragment>
     </div>
   );
 }
