@@ -53,7 +53,7 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
   async function handleImageUpload(file: File): Promise<string> {
     const uploadFormData = new FormData();
     uploadFormData.append("file", file);
-    uploadFormData.append("dogName", formData.name || "temp");
+    uploadFormData.append("dogName", formData.name.trim() || "temp");
 
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -61,7 +61,10 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to upload image");
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Upload failed" }));
+      throw new Error(errorData.error || "Failed to upload image");
     }
 
     const data = await response.json();
@@ -74,7 +77,8 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!formData.name) {
+    const trimmedName = formData.name.trim();
+    if (!trimmedName) {
       alert("Please enter a dog name first");
       e.target.value = "";
       return;
@@ -86,7 +90,9 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
       setFormData({ ...formData, image: path });
     } catch (err) {
       console.error(err);
-      alert("Failed to upload image");
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to upload image";
+      alert(errorMessage);
     } finally {
       setUploadingImage(false);
     }
@@ -96,7 +102,8 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    if (!formData.name) {
+    const trimmedName = formData.name.trim();
+    if (!trimmedName) {
       alert("Please enter a dog name first");
       e.target.value = "";
       return;
@@ -113,7 +120,9 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
       });
     } catch (err) {
       console.error(err);
-      alert("Failed to upload gallery images");
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to upload gallery images";
+      alert(errorMessage);
     } finally {
       setUploadingGallery(false);
       e.target.value = "";
