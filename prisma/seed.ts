@@ -201,8 +201,13 @@ async function main() {
     console.log("🌱 Starting database seed...");
 
     // Create admin user
-    const adminEmail = process.env.ADMIN_EMAIL || "admin@pawspals.com";
-    const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    
+    if (!adminEmail || !adminPassword) {
+        throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set in environment variables");
+    }
+    
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     const admin = await prisma.admin.upsert({
