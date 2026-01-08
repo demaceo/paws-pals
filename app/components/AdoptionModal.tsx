@@ -169,6 +169,7 @@ export default function AdoptionModal({ dog, action }: Props) {
                   name="phone"
                   type="tel"
                   inputMode="numeric"
+                  required
                   value={phone}
                   onChange={(e) => onPhoneChange(e.target.value)}
                   placeholder={t("form.phone.placeholder")}
@@ -186,6 +187,7 @@ export default function AdoptionModal({ dog, action }: Props) {
                   id="message"
                   name="message"
                   rows={4}
+                  required
                   placeholder={t("form.message.placeholder")}
                   className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:text-white dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
                 />
