@@ -144,10 +144,17 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
         mode === "create" ? "/api/dogs" : `/api/dogs/${initialData?.id}`;
       const method = mode === "create" ? "POST" : "PATCH";
 
+      // Set default values for breed and age if empty
+      const submissionData = {
+        ...formData,
+        breed: formData.breed.trim() || "To be determined",
+        age: formData.age.trim() || "To be determined",
+      };
+
       const response = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       });
 
       if (!response.ok) {
@@ -196,12 +203,12 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
             htmlFor="breed"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Breed *
+            Breed
           </label>
           <input
             type="text"
             id="breed"
-            required
+            placeholder="To be determined"
             value={formData.breed}
             onChange={(e) =>
               setFormData({ ...formData, breed: e.target.value })
@@ -215,13 +222,12 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
             htmlFor="age"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Age *
+            Age
           </label>
           <input
             type="text"
             id="age"
-            required
-            placeholder="e.g., 2 years, 8 months"
+            placeholder="To be determined"
             value={formData.age}
             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
             className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
