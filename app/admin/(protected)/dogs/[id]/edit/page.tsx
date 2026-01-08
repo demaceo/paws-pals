@@ -17,6 +17,21 @@ export default async function EditDogPage({
     notFound();
   }
 
+  // Transform database data to match DogFormData types
+  const dogFormData = {
+    id: dog.id,
+    name: dog.name,
+    breed: dog.breed,
+    age: dog.age,
+    sex: dog.sex as "Male" | "Female",
+    size: dog.size as "Small" | "Medium" | "Large",
+    status: dog.status,
+    location: dog.location,
+    description: dog.description,
+    image: dog.image,
+    gallery: dog.gallery ? JSON.parse(dog.gallery) : [],
+  };
+
   return (
     <div className="px-4 sm:px-0">
       <div className="mb-6">
@@ -29,7 +44,7 @@ export default async function EditDogPage({
       </div>
 
       <div className="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
-        <DogForm mode="edit" initialData={dog} />
+        <DogForm mode="edit" initialData={dogFormData} />
       </div>
     </div>
   );
