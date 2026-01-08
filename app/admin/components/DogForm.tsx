@@ -144,11 +144,15 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
         mode === "create" ? "/api/dogs" : `/api/dogs/${initialData?.id}`;
       const method = mode === "create" ? "POST" : "PATCH";
 
-      // Set default values for breed and age if empty
+      // Set default values for breed, age, location, and description if empty
       const submissionData = {
         ...formData,
         breed: formData.breed.trim() || "To be determined",
         age: formData.age.trim() || "To be determined",
+        location: formData.location.trim() || "Sunrise Sanctuary, PR",
+        description:
+          formData.description.trim() ||
+          `Meet ${formData.name}! More details coming soon. This sweet pup is waiting for their forever home.`,
       };
 
       const response = await fetch(url, {
@@ -313,12 +317,12 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
             htmlFor="location"
             className="block text-sm font-medium text-gray-700 dark:text-gray-300"
           >
-            Location *
+            Location
           </label>
           <input
             type="text"
             id="location"
-            required
+            placeholder="Sunrise Sanctuary, PR"
             value={formData.location}
             onChange={(e) =>
               setFormData({ ...formData, location: e.target.value })
@@ -333,12 +337,12 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
           htmlFor="description"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Description *
+          Description
         </label>
         <textarea
           id="description"
-          required
           rows={5}
+          placeholder="Meet [Dog Name]! More details coming soon. This sweet pup is waiting for their forever home."
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
