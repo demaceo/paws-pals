@@ -42,3 +42,23 @@ next-env.d.ts
 
 # image backups
 /public/dogs-backup
+
+# prisma generated client
+/lib/generated/prisma
+/prisma/generated/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS files
+.DS_Store?
+._*
+
+# image optimization artifacts
+*.bak
+*.webp.bak
+*.jpg.bak
+*.png.bak

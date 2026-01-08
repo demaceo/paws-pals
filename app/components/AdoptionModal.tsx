@@ -21,7 +21,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-full bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500 disabled:opacity-60 md:w-auto"
+      className="w-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-orange-500/30 transition hover:shadow-xl hover:from-orange-600 hover:to-orange-700 disabled:opacity-60 md:w-auto"
     >
       {pending ? t("form.submitting") : t("form.submit")}
     </button>
@@ -59,7 +59,10 @@ export default function AdoptionModal({ dog, action }: Props) {
   useEffect(() => {
     if (state.ok) {
       const name = state.dogName || dog.name;
-      const t = setTimeout(() => router.push(`/thank-you?dog=${encodeURIComponent(name)}`), 500);
+      const t = setTimeout(
+        () => router.push(`/thank-you?dog=${encodeURIComponent(name)}`),
+        500
+      );
       return () => clearTimeout(t);
     }
   }, [state, router, dog.name]);
@@ -73,7 +76,7 @@ export default function AdoptionModal({ dog, action }: Props) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-full bg-indigo-600 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500"
+        className="rounded-full bg-linear-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-medium text-white shadow-lg shadow-orange-500/30 transition hover:shadow-xl hover:from-orange-600 hover:to-orange-700"
       >
         {t("dog.adopt")}
       </button>
@@ -92,31 +95,42 @@ export default function AdoptionModal({ dog, action }: Props) {
           <div
             ref={dialogRef}
             tabIndex={-1}
-            className="relative z-50 w-full max-w-xl rounded-3xl border border-black/10 bg-white p-6 shadow-xl outline-none dark:border-white/15 dark:bg-zinc-900"
+            className="relative z-50 w-full max-w-xl rounded-3xl border border-orange-100 bg-white p-6 shadow-xl outline-none dark:border-orange-900/30 dark:bg-zinc-900"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 id="adopt-title" className="text-xl font-semibold tracking-tight">
+                <h2
+                  id="adopt-title"
+                  className="text-xl font-semibold tracking-tight"
+                >
                   {t("modal.title", { name: dog.name })}
                 </h2>
-                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{t("modal.subtitle")}</p>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  {t("modal.subtitle")}
+                </p>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-full border border-black/10 bg-white px-3 py-1 text-sm text-zinc-700 hover:bg-zinc-50 dark:border-white/15 dark:bg-zinc-800 dark:text-zinc-200"
+                className="rounded-full border-2 border-orange-200 bg-white px-3 py-1 text-sm text-zinc-700 transition hover:border-orange-300 hover:bg-orange-50 dark:border-orange-900/50 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-orange-800"
                 aria-label={t("modal.close")}
               >
                 ✕
               </button>
             </div>
 
-            <form action={formAction} className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <form
+              action={formAction}
+              className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2"
+            >
               <input type="hidden" name="dogId" value={dog.id} />
               <input type="hidden" name="dogName" value={dog.name} />
               <input type="hidden" name="locale" value={locale} />
               <div className="md:col-span-1">
-                <label className="mb-1 block text-xs text-zinc-500" htmlFor="name">
+                <label
+                  className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400"
+                  htmlFor="name"
+                >
                   {t("form.name")}
                 </label>
                 <input
@@ -124,11 +138,14 @@ export default function AdoptionModal({ dog, action }: Props) {
                   name="name"
                   required
                   placeholder={t("form.name.placeholder")}
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+                  className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:text-white dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
                 />
               </div>
               <div className="md:col-span-1">
-                <label className="mb-1 block text-xs text-zinc-500" htmlFor="email">
+                <label
+                  className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400"
+                  htmlFor="email"
+                >
                   {t("form.email")}
                 </label>
                 <input
@@ -137,11 +154,14 @@ export default function AdoptionModal({ dog, action }: Props) {
                   type="email"
                   required
                   placeholder={t("form.email.placeholder")}
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+                  className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:text-white dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
                 />
               </div>
               <div className="md:col-span-1">
-                <label className="mb-1 block text-xs text-zinc-500" htmlFor="phone">
+                <label
+                  className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400"
+                  htmlFor="phone"
+                >
                   {t("form.phone")}
                 </label>
                 <input
@@ -152,11 +172,14 @@ export default function AdoptionModal({ dog, action }: Props) {
                   value={phone}
                   onChange={(e) => onPhoneChange(e.target.value)}
                   placeholder={t("form.phone.placeholder")}
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+                  className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:text-white dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="mb-1 block text-xs text-zinc-500" htmlFor="message">
+                <label
+                  className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400"
+                  htmlFor="message"
+                >
                   {t("form.message")}
                 </label>
                 <textarea
@@ -164,7 +187,7 @@ export default function AdoptionModal({ dog, action }: Props) {
                   name="message"
                   rows={4}
                   placeholder={t("form.message.placeholder")}
-                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 focus:border-indigo-400 dark:border-white/15 dark:bg-zinc-950"
+                  className="w-full rounded-xl border-2 border-orange-200 bg-white px-3 py-2 text-sm outline-none ring-0 placeholder:text-zinc-400 transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-orange-900/50 dark:bg-zinc-950 dark:text-white dark:focus:border-orange-500 dark:focus:ring-orange-900/30"
                 />
               </div>
               <div className="md:col-span-2">

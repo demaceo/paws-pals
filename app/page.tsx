@@ -6,7 +6,7 @@ import { getMessages } from "@/lib/i18n-messages";
 import { buttonStyles, stepBadgeStyles } from "@/lib/styles";
 
 export default async function Home() {
-  const dogs = getDogs();
+  const dogs = await getDogs();
   const locale = await getLocale();
   const m = getMessages(locale);
 

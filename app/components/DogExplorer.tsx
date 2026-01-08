@@ -37,7 +37,9 @@ export default function DogExplorer({ dogs }: Props) {
 
   const [q, setQ] = useState(() => getSavedFilters()?.query ?? "");
   const [breed, setBreed] = useState(() => getSavedFilters()?.breed ?? "all");
-  const [ageGroup, setAgeGroup] = useState(() => getSavedFilters()?.ageGroup ?? "any");
+  const [ageGroup, setAgeGroup] = useState(
+    () => getSavedFilters()?.ageGroup ?? "any"
+  );
 
   // Save filter state whenever it changes
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function DogExplorer({ dogs }: Props) {
         <div className={cardStyles.gradient}>
           <div className="grid gap-3 md:grid-cols-3">
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">
+              <label className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400">
                 {t("filters.searchLabel")}
               </label>
               <input
@@ -84,7 +86,7 @@ export default function DogExplorer({ dogs }: Props) {
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">
+              <label className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400">
                 {t("filters.breed")}
               </label>
               <select
@@ -100,7 +102,7 @@ export default function DogExplorer({ dogs }: Props) {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs text-zinc-500">
+              <label className="mb-1 block text-xs text-zinc-500 dark:text-zinc-400">
                 {t("filters.age")}
               </label>
               <select

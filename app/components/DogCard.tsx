@@ -13,6 +13,7 @@ type Props = {
 
 export default function DogCard({ dog }: Props) {
   const { t, messages } = useI18n();
+  const showStatusDot = dog.status === "Available" || dog.status === "Pending";
 
   return (
     <Link
@@ -41,14 +42,23 @@ export default function DogCard({ dog }: Props) {
       </div>
       <div className="flex items-center justify-between gap-2 p-4">
         <div>
-          <h3 className="text-base font-semibold leading-tight text-zinc-950 dark:text-zinc-50">
-            {dog.name}
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-base font-semibold leading-tight text-zinc-950 dark:text-zinc-50">
+              {dog.name}
+            </h3>
+            {showStatusDot && (
+              <span
+                className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_0.35rem_rgba(16,185,129,0.9)]"
+                title={`${dog.status} status`}
+                aria-label={`${dog.status} status`}
+              />
+            )}
+          </div>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             {dog.breed}
           </p>
         </div>
-        <span className="text-xs text-zinc-500">
+        <span className="text-xs text-zinc-500 dark:text-zinc-400">
           {translateAge(dog.age, messages)}
         </span>
       </div>
