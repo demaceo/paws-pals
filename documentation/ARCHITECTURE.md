@@ -116,8 +116,8 @@
      │ 2. Upload images
      ▼
 ┌───────────────────┐
-│ POST /api/upload  │  ──→  Save to /public/dogs/[Name]/
-│ - Validate file   │       Return image paths
+│ POST /api/upload  │  ──→  Upload to Cloudinary CDN
+│ - Validate file   │       Return Cloudinary URLs
 │ - Check auth      │
 └────┬──────────────┘
      │

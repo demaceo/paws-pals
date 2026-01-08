@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
 import AdoptionModal from "@/app/components/AdoptionModal";
+import { prisma } from "@/lib/prisma";
 import { getLocale } from "@/lib/i18n-server";
 import { getMessages, format, type Locale } from "@/lib/i18n-messages";
 import { translateAttribute, translateAge } from "@/lib/i18n-helpers";
@@ -70,8 +71,23 @@ export default async function DogPage({
     const digits = phone.replace(/\D/g, "");
     if (digits.length < 10) return { ok: false, error: mm["form.error.phone"] };
 
-    // Simulate persistence; swap with real integration later
-    console.log("Adoption inquiry", { dogId, name, email, phone, message });
+    try {
+      await prisma.inquiry.create({
+        data: {
+          dogId,
+          dogName,
+          name,
+          email,
+          phone,
+          message: message || null,
+          locale: submittedLocale,
+        },
+      });
+    } catch (error) {
+      console.error("Failed to save inquiry", error);
+      return { ok: false, error: mm["form.error.save"] };
+    }
+
     return { ok: true, dogName };
   }
 

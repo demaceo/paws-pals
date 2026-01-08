@@ -15,7 +15,16 @@ const en: Messages = {
 
     // Footer
     "footer.copyright": "© {year} One At A Time Rescue. All rights reserved.",
-    "footer.builtWith": "Built with Next.js and Tailwind CSS.",
+    "footer.mission": "Dedicated to finding loving homes for dogs in need, one at a time.",
+    "footer.about": "About Us",
+    "footer.contact": "Contact",
+    "footer.volunteer": "Volunteer",
+    "footer.donate": "Donate",
+    "footer.faq": "FAQ",
+    "footer.connect": "Connect With Us",
+    "footer.newsletter": "Stay Updated",
+    "footer.emailPlaceholder": "your@email.com",
+    "footer.subscribe": "Subscribe",
 
     // Hero
     "hero.title": "Find your new best friend",
@@ -88,6 +97,7 @@ const en: Messages = {
     "form.submitting": "Submitting…",
     "form.error.required": "Name and email are required.",
     "form.error.phone": "Please enter a valid 10-digit phone number.",
+    "form.error.save": "We couldn't save your inquiry. Please try again in a moment.",
     "form.success": "Inquiry sent! Redirecting…",
 
     // Thank you
@@ -112,7 +122,16 @@ const es: Messages = {
 
     // Footer
     "footer.copyright": "© {year} One At A Time Rescue. Todos los derechos reservados.",
-    "footer.builtWith": "Creado con Next.js y Tailwind CSS.",
+    "footer.mission": "Dedicados a encontrar hogares amorosos para perros necesitados, uno a la vez.",
+    "footer.about": "Sobre Nosotros",
+    "footer.contact": "Contacto",
+    "footer.volunteer": "Voluntariado",
+    "footer.donate": "Donar",
+    "footer.faq": "Preguntas Frecuentes",
+    "footer.connect": "Conéctate Con Nosotros",
+    "footer.newsletter": "Mantente Informado",
+    "footer.emailPlaceholder": "tu@correo.com",
+    "footer.subscribe": "Suscribirse",
 
     // Hero
     "hero.title": "Encuentra a tu nuevo mejor amigo",
@@ -185,6 +204,7 @@ const es: Messages = {
     "form.submitting": "Enviando…",
     "form.error.required": "El nombre y el correo son obligatorios.",
     "form.error.phone": "Ingresa un número de teléfono válido de 10 dígitos.",
+    "form.error.save": "No pudimos guardar tu solicitud. Intenta nuevamente en unos minutos.",
     "form.success": "¡Solicitud enviada! Redirigiendo…",
 
     // Thank you

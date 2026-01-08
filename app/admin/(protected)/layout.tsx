@@ -1,6 +1,7 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import AdminInbox from "./components/AdminInbox";
 
 export default async function AdminLayout({
   children,
@@ -48,6 +49,7 @@ export default async function AdminLayout({
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <AdminInbox />
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 {session.user?.email}
               </span>

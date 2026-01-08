@@ -202,7 +202,8 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
       if (response.ok) {
         setRows((prev) => prev.filter((row) => row.id !== id));
         setDrafts((prev) => {
-          const { [id]: _, ...rest } = prev;
+          const rest = { ...prev };
+          delete rest[id];
           return rest;
         });
 

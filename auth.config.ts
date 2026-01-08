@@ -46,7 +46,7 @@ export const authConfig: NextAuthConfig = {
         signIn: "/admin/login",
     },
     callbacks: {
-        authorized({ auth, request: { nextUrl } }) {
+        authorized({ auth }) {
             const isLoggedIn = !!auth?.user;
 
             // Since login page is excluded from proxy matcher,

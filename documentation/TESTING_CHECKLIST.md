@@ -163,7 +163,7 @@ npx prisma studio
 - [ ] Dog no longer appears on homepage
 - [ ] Dog detail page shows 404
 
-**⚠️ Note:** Images remain in `/public/dogs/` folder
+**⚠️ Note:** Images are deleted from Cloudinary when dog is deleted
 
 ---
 
@@ -178,11 +178,11 @@ npx prisma studio
 - [ ] Can remove gallery images before saving
 - [ ] Images display in form preview
 
-**Check filesystem:**
+**Check Cloudinary:**
 
-- [ ] Images saved to `/public/dogs/[DogName]/`
-- [ ] Filenames are unique (UUID)
-- [ ] Images accessible at `/dogs/[DogName]/[filename]`
+- [ ] Images uploaded to Cloudinary under `paws-pals/dogs/[DogName]/` folder
+- [ ] Image URLs returned from `/api/upload` are Cloudinary URLs
+- [ ] Images accessible via Cloudinary CDN URLs (e.g., `res.cloudinary.com/...`)
 
 ---
 
