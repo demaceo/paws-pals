@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
-type Dog = {
+export type Dog = {
   id: string;
   name: string;
   breed: string;

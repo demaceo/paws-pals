@@ -1,22 +1,36 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import DogManagementTable from "../components/DogManagementTable";
+import DogManagementTable, { type Dog as ManagementDog } from "../components/DogManagementTable";
 
 export default async function AdminDashboardPage() {
-  const dogs = await prisma.dog.findMany({
+  const dbDogs = await prisma.dog.findMany({
     orderBy: { name: "asc" },
-      select: {
-        id: true,
-        name: true,
-        breed: true,
-        age: true,
-        sex: true,
-        size: true,
-        status: true,
-        location: true,
-        image: true,
-      },
+    select: {
+      id: true,
+      name: true,
+      breed: true,
+      age: true,
+      sex: true,
+      size: true,
+      status: true,
+      location: true,
+      image: true,
+      description: true,
+    },
   });
+
+  const dogs: ManagementDog[] = dbDogs.map((dog) => ({
+    id: dog.id,
+    name: dog.name,
+    breed: dog.breed,
+    age: dog.age,
+    sex: dog.sex as ManagementDog["sex"],
+    size: dog.size as ManagementDog["size"],
+    status: dog.status as ManagementDog["status"],
+    location: dog.location,
+    image: dog.image,
+    description: dog.description,
+  }));
 
   return (
     <div className="px-4 sm:px-0">
@@ -68,7 +82,7 @@ export default async function AdminDashboardPage() {
               Males
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">
-              {dogs.filter((d: { sex: string }) => d.sex === "Male").length}
+              {dogs.filter((d) => d.sex === "Male").length}
             </dd>
           </div>
         </div>
@@ -78,7 +92,7 @@ export default async function AdminDashboardPage() {
               Females
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">
-              {dogs.filter((d: { sex: string }) => d.sex === "Female").length}
+              {dogs.filter((d) => d.sex === "Female").length}
             </dd>
           </div>
         </div>
