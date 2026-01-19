@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ImageCropModal from "./ImageCropModal";
+import { readFile, blobToFile } from "@/lib/image-utils";
 
 type DogFormData = {
   name: string;
@@ -28,6 +30,12 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
   const [error, setError] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+
+  // Crop modal state
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  const [cropType, setCropType] = useState<"primary" | "gallery">("primary");
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
 
   const [formData, setFormData] = useState<DogFormData>({
     name: initialData?.name || "",
@@ -72,7 +80,7 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
   }
 
   async function handlePrimaryImageChange(
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -84,18 +92,20 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
       return;
     }
 
-    setUploadingImage(true);
     try {
-      const path = await handleImageUpload(file);
-      setFormData({ ...formData, image: path });
+      // Read file and show crop modal
+      const imageDataUrl = await readFile(file);
+      setImageToCrop(imageDataUrl);
+      setCropType("primary");
+      setPendingFiles([file]);
+      setCropModalOpen(true);
     } catch (err) {
       console.error(err);
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to upload image";
-      alert(errorMessage);
-    } finally {
-      setUploadingImage(false);
+      alert("Failed to read image file");
     }
+
+    // Clear input so same file can be selected again
+    e.target.value = "";
   }
 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -109,29 +119,100 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
       return;
     }
 
-    setUploadingGallery(true);
+    // For gallery, crop one at a time (first file)
     try {
-      const paths = await Promise.all(
-        files.map((file) => handleImageUpload(file))
-      );
-      setFormData({
-        ...formData,
-        gallery: [...formData.gallery, ...paths],
-      });
+      const imageDataUrl = await readFile(files[0]);
+      setImageToCrop(imageDataUrl);
+      setCropType("gallery");
+      setPendingFiles(files);
+      setCropModalOpen(true);
     } catch (err) {
       console.error(err);
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to upload gallery images";
-      alert(errorMessage);
-    } finally {
-      setUploadingGallery(false);
-      e.target.value = "";
+      alert("Failed to read image file");
     }
+
+    // Clear input so same files can be selected again
+    e.target.value = "";
   }
 
   function removeGalleryImage(index: number) {
     const newGallery = formData.gallery.filter((_, i) => i !== index);
     setFormData({ ...formData, gallery: newGallery });
+  }
+
+  // Handle cropped image
+  async function handleCroppedImage(croppedBlob: Blob) {
+    setCropModalOpen(false);
+
+    if (cropType === "primary") {
+      setUploadingImage(true);
+      try {
+        // Convert blob to file with original name
+        const originalFile = pendingFiles[0];
+        const croppedFile = blobToFile(
+          croppedBlob,
+          originalFile.name || "cropped-image.jpg",
+        );
+
+        // Upload the cropped image
+        const path = await handleImageUpload(croppedFile);
+        setFormData({ ...formData, image: path });
+      } catch (err) {
+        console.error(err);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to upload image";
+        alert(errorMessage);
+      } finally {
+        setUploadingImage(false);
+        setImageToCrop(null);
+        setPendingFiles([]);
+      }
+    } else {
+      // Gallery image
+      setUploadingGallery(true);
+      try {
+        const originalFile = pendingFiles[0];
+        const croppedFile = blobToFile(
+          croppedBlob,
+          originalFile.name || "cropped-gallery.jpg",
+        );
+
+        // Upload the cropped image
+        const path = await handleImageUpload(croppedFile);
+        setFormData({
+          ...formData,
+          gallery: [...formData.gallery, path],
+        });
+
+        // If more files in queue, show crop modal for next one
+        const remainingFiles = pendingFiles.slice(1);
+        if (remainingFiles.length > 0) {
+          const nextImageDataUrl = await readFile(remainingFiles[0]);
+          setImageToCrop(nextImageDataUrl);
+          setPendingFiles(remainingFiles);
+          setCropModalOpen(true);
+        } else {
+          setImageToCrop(null);
+          setPendingFiles([]);
+        }
+      } catch (err) {
+        console.error(err);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to upload gallery image";
+        alert(errorMessage);
+        setImageToCrop(null);
+        setPendingFiles([]);
+      } finally {
+        setUploadingGallery(false);
+      }
+    }
+  }
+
+  // Handle crop cancel
+  function handleCropCancel() {
+    setCropModalOpen(false);
+    setImageToCrop(null);
+    setPendingFiles([]);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -441,10 +522,23 @@ export default function DogForm({ initialData, mode }: DogFormProps) {
           {loading
             ? "Saving..."
             : mode === "create"
-            ? "Create Dog"
-            : "Update Dog"}
+              ? "Create Dog"
+              : "Update Dog"}
         </button>
       </div>
+
+      {/* Image Crop Modal */}
+      {cropModalOpen && imageToCrop && (
+        <ImageCropModal
+          imageSrc={imageToCrop}
+          onComplete={handleCroppedImage}
+          onCancel={handleCropCancel}
+          aspectRatio={4 / 3}
+          title={
+            cropType === "primary" ? "Crop Primary Image" : "Crop Gallery Image"
+          }
+        />
+      )}
     </form>
   );
 }

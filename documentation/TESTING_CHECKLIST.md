@@ -169,6 +169,8 @@ npx prisma studio
 
 ## 🖼️ Test Image Upload
 
+### Basic Upload Functionality
+
 - [ ] Can upload JPEG images
 - [ ] Can upload PNG images
 - [ ] Can upload WebP images
@@ -177,6 +179,33 @@ npx prisma studio
 - [ ] Multiple gallery images can be uploaded
 - [ ] Can remove gallery images before saving
 - [ ] Images display in form preview
+
+### Image Cropping & Editing
+
+- [ ] Crop modal appears after selecting primary image
+- [ ] Crop modal appears after selecting gallery images
+- [ ] Can zoom in/out on image (1x to 3x)
+- [ ] Can rotate image (0° to 360°)
+- [ ] Can adjust crop area by dragging
+- [ ] Can change max width (200px to 3000px)
+- [ ] Can adjust quality (60% to 100%)
+- [ ] "Cancel" button closes modal without uploading
+- [ ] "Crop & Upload" button processes and uploads image
+- [ ] Cropped image displays correctly after upload
+- [ ] Processing indicator shows during crop operation
+
+### Gallery Image Workflow
+
+- [ ] Multiple gallery images are cropped one at a time
+- [ ] After cropping first image, modal shows second image
+- [ ] Can cancel at any point in multi-image workflow
+- [ ] All cropped images appear in gallery preview
+
+**Check Cloudinary:**
+
+- [ ] Images uploaded to Cloudinary under `paws-pals/dogs/[DogName]/` folder
+- [ ] Image URLs returned from `/api/upload` are Cloudinary URLs
+- [ ] Images accessible via Cloudinary CDN URLs (e.g., `res.cloudinary.com/...`)
 
 **Check Cloudinary:**
 
@@ -195,6 +224,7 @@ npx prisma studio
 - [ ] Click dog card navigates to detail page
 - [ ] Dog detail page shows all information
 - [ ] Gallery images display
+- [ ] Gallery modal opens and supports next/previous navigation
 - [ ] Adoption modal opens
 - [ ] Form submission works
 
