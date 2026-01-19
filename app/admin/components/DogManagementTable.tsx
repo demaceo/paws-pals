@@ -76,6 +76,10 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
 
   const [sexFilter, setSexFilter] = useState<"all" | Dog["sex"]>("all");
   const [sizeFilter, setSizeFilter] = useState<"all" | Dog["size"]>("all");
+  const controlClass =
+    "w-full rounded-xl border border-orange-100/80 bg-white/80 px-3 py-2 text-sm text-gray-900 shadow-inner shadow-orange-100/40 transition focus:border-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-100 dark:border-gray-700 dark:bg-gray-900/60 dark:text-white dark:shadow-black/30 dark:focus:border-orange-500 dark:focus:ring-orange-900/40";
+  const labelClass =
+    "block text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400";
 
   const filteredRows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -226,62 +230,69 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
 
   return (
     <div className="space-y-5">
-      <section className="space-y-5 rounded-3xl border border-gray-200/70 bg-white/90 p-6 shadow-sm shadow-gray-900/5 backdrop-blur dark:border-gray-700/60 dark:bg-gray-900 dark:shadow-black/30">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-            Dog Management
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Track availability, update records, and act on the latest dog
-            information.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex gap-3 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-medium text-gray-900 dark:text-gray-100">
-              Showing {visibleCount}
-            </span>
-            <span className="text-gray-400">/</span>
-            <span className="text-gray-900 dark:text-gray-100">
-              {totals.total} total dogs
-            </span>
+      <section className="space-y-5 rounded-3xl bg-white/80 p-6 shadow-inner shadow-orange-100/40 backdrop-blur dark:bg-gray-950/70 dark:shadow-black/20">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-orange-500 dark:text-orange-300">
+              Control Center
+            </p>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
+              Dog roster & filters
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Tune the roster, adjust statuses, and keep the dashboard clean.
+            </p>
           </div>
-          <div className="flex gap-3 text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+            <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700 shadow-sm ring-1 ring-emerald-100/80 dark:bg-emerald-500/15 dark:text-emerald-200 dark:ring-emerald-900/40">
               {totals.available} Available
             </span>
-            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300">
+            <span className="rounded-full bg-amber-50 px-3 py-1 text-amber-700 shadow-sm ring-1 ring-amber-100/80 dark:bg-amber-500/15 dark:text-amber-200 dark:ring-amber-900/40">
               {totals.pending} Pending
             </span>
-            <span className="rounded-full bg-slate-50 px-2 py-0.5 text-slate-700 dark:bg-slate-500/15 dark:text-slate-300">
+            <span className="rounded-full bg-slate-50 px-3 py-1 text-slate-700 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-500/15 dark:text-slate-200 dark:ring-slate-800/50">
               {totals.adopted} Adopted
+            </span>
+            <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-700 shadow-sm ring-1 ring-gray-200/80 dark:bg-gray-800 dark:text-gray-200 dark:ring-gray-700">
+              Showing {visibleCount}/{totals.total}
             </span>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-1">
           <div>
-            <label
-              htmlFor="dog-search"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
+            <label htmlFor="dog-search" className={labelClass}>
               Search
             </label>
-            <input
-              id="dog-search"
-              type="search"
-              placeholder="Search by name, breed, or location"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
-            />
+            <div className="relative mt-2">
+              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"
+                  />
+                </svg>
+              </span>
+              <input
+                id="dog-search"
+                type="search"
+                placeholder="Search by name, breed, or location"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className={`${controlClass} pl-10`}
+              />
+            </div>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           <div>
-            <label
-              htmlFor="status-filter"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
+            <label htmlFor="status-filter" className={labelClass}>
               Status
             </label>
             <select
@@ -290,7 +301,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
               onChange={(e) =>
                 setStatusFilter(e.target.value as "all" | Dog["status"])
               }
-              className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+              className={`${controlClass} mt-2`}
             >
               <option value="all">All statuses</option>
               <option value="Available">Available</option>
@@ -299,10 +310,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
             </select>
           </div>
           <div>
-            <label
-              htmlFor="sex-filter"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
+            <label htmlFor="sex-filter" className={labelClass}>
               Sex
             </label>
             <select
@@ -311,7 +319,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
               onChange={(e) =>
                 setSexFilter(e.target.value as "all" | Dog["sex"])
               }
-              className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+              className={`${controlClass} mt-2`}
             >
               <option value="all">All sexes</option>
               <option value="Male">Male</option>
@@ -319,10 +327,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
             </select>
           </div>
           <div>
-            <label
-              htmlFor="size-filter"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
+            <label htmlFor="size-filter" className={labelClass}>
               Size
             </label>
             <select
@@ -331,7 +336,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
               onChange={(e) =>
                 setSizeFilter(e.target.value as "all" | Dog["size"])
               }
-              className="mt-1 w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+              className={`${controlClass} mt-2`}
             >
               <option value="all">All sizes</option>
               <option value="Small">Small</option>
@@ -340,37 +345,37 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
             </select>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-800">
+        <div className="overflow-x-auto rounded-2xl border border-orange-100/70 bg-white/80 shadow-sm shadow-orange-100/40 dark:border-gray-800 dark:bg-gray-900/60 dark:shadow-black/30">
+          <table className="min-w-full divide-y divide-orange-100/80 dark:divide-gray-800">
+            <thead className="bg-gradient-to-r from-orange-50/60 via-white to-orange-50/60 text-left dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Image
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Breed
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Age
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Sex
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Size
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Status
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-600 dark:text-gray-400">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="divide-y divide-orange-100/80 bg-white/50 dark:divide-gray-800 dark:bg-gray-950/40">
               {filteredRows.length === 0 ? (
                 <tr>
                   <td
@@ -391,15 +396,15 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                   return (
                     <tr
                       key={dog.id}
-                      className="transition hover:bg-gray-50 hover:dark:bg-white/5"
+                      className="transition hover:-translate-y-[1px] hover:bg-orange-50/60 hover:shadow-sm hover:shadow-orange-100/60 dark:hover:bg-white/5"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="whitespace-nowrap px-6 py-4">
                         <Image
                           src={dog.image}
                           alt={dog.name}
                           width={64}
                           height={64}
-                          className="rounded-lg object-cover"
+                          className="rounded-xl object-cover ring-2 ring-orange-100/80 shadow-sm dark:ring-gray-800"
                         />
                       </td>
                       <td className="px-6 py-4">
@@ -410,7 +415,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             handleFieldChange(dog.id, "name", e.target.value)
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[8rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[8rem]`}
                         />
                       </td>
                       <td className="px-6 py-4">
@@ -421,7 +426,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             handleFieldChange(dog.id, "breed", e.target.value)
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[10rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[10rem]`}
                         />
                       </td>
                       <td className="px-6 py-4">
@@ -432,7 +437,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             handleFieldChange(dog.id, "age", e.target.value)
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[6rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[6rem]`}
                         />
                       </td>
                       <td className="px-6 py-4">
@@ -446,7 +451,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             )
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[6rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[6rem]`}
                         >
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -463,7 +468,7 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             )
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[7rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[7rem]`}
                         >
                           <option value="Small">Small</option>
                           <option value="Medium">Medium</option>
@@ -481,38 +486,38 @@ export default function DogManagementTable({ dogs }: { dogs: Dog[] }) {
                             )
                           }
                           disabled={isSaving || isDeleting}
-                          className="w-full min-w-[8rem] rounded-md border border-gray-300 dark:border-gray-600 px-2 py-1 text-sm text-gray-900 dark:text-white dark:bg-gray-800 focus:border-orange-500 focus:ring-orange-500"
+                          className={`${controlClass} min-w-[8rem]`}
                         >
                           <option value="Available">Available</option>
                           <option value="Pending">Pending</option>
                           <option value="Adopted">Adopted</option>
                         </select>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-3">
                           <button
                             onClick={() => handleSave(dog.id)}
                             disabled={!dirty || isSaving || isDeleting}
-                            className="text-emerald-600 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300 disabled:opacity-50"
+                            className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md hover:shadow-emerald-100/60 dark:border-emerald-900/40 dark:bg-emerald-500/10 dark:text-emerald-200 dark:hover:shadow-emerald-900/40 disabled:translate-y-0 disabled:opacity-50"
                           >
-                            {isSaving ? "Saving..." : "Save"}
+                            {isSaving ? "Saving..." : dirty ? "Save" : "Saved"}
                           </button>
                           <Link
                             href={`/admin/dogs/${dog.id}/edit`}
-                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                            className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md hover:shadow-blue-100/60 dark:border-blue-900/40 dark:bg-blue-500/10 dark:text-blue-200 dark:hover:shadow-blue-900/40"
                           >
                             Edit
                           </Link>
                           <button
                             onClick={() => handleDelete(dog.id)}
                             disabled={isSaving || isDeleting}
-                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50"
+                            className="inline-flex items-center gap-1 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-semibold text-red-700 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md hover:shadow-red-100/60 dark:border-red-900/40 dark:bg-red-500/10 dark:text-red-200 dark:hover:shadow-red-900/40 disabled:translate-y-0 disabled:opacity-50"
                           >
                             {isDeleting ? "Deleting..." : "Delete"}
                           </button>
                         </div>
                         {error && (
-                          <p className="mt-1 text-xs text-red-600 dark:text-red-400">
+                          <p className="mt-2 text-xs text-red-600 dark:text-red-400">
                             {error}
                           </p>
                         )}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { buttonStyles, cardStyles, inputStyles } from "@/lib/styles";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -38,21 +39,46 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
-            Admin Login
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Access the dog management dashboard
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
+    <div className="relative min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 dark:from-gray-950 dark:via-gray-900 dark:to-black">
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-16 top-0 h-72 w-72 rounded-full bg-orange-200/40 blur-3xl dark:bg-orange-500/10" />
+        <div className="absolute bottom-[-10%] right-0 h-80 w-80 rounded-full bg-amber-100/50 blur-3xl dark:bg-orange-800/15" />
+      </div>
+      <div className="relative flex min-h-screen items-center justify-center px-4 py-12">
+        <div className={`${cardStyles.gradient} w-full max-w-md space-y-6 p-8`}>
+          <div className="flex items-center justify-between">
+            <div className="inline-flex items-center gap-3 rounded-full bg-white/80 px-3 py-2 shadow-sm ring-1 ring-orange-100/70 dark:bg-orange-950/30 dark:ring-orange-900/40">
+              <span className="text-xl">🐾</span>
+              <div className="leading-tight">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-orange-500 dark:text-orange-300">
+                  Admin
+                </p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white">
+                  Shelter Console
+                </p>
+              </div>
+            </div>
+            <span className="rounded-full bg-gray-900 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm dark:bg-white dark:text-gray-900">
+              Secure
+            </span>
+          </div>
+
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Admin Login
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Access the dog management dashboard
+            </p>
+          </div>
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400"
+              >
+                Email
               </label>
               <input
                 id="email"
@@ -62,12 +88,16 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 rounded-t-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className={inputStyles.base}
+                placeholder="admin@example.com"
               />
             </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
+
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400"
+              >
                 Password
               </label>
               <input
@@ -78,28 +108,30 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-800 rounded-b-md focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className={inputStyles.base}
+                placeholder="••••••••"
               />
             </div>
-          </div>
 
-          {error && (
-            <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
-              <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
-            </div>
-          )}
+            {error && (
+              <div className="rounded-xl border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 shadow-sm dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-200">
+                {error}
+              </div>
+            )}
 
-          <div>
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`${buttonStyles.primary} w-full justify-center text-center disabled:cursor-not-allowed disabled:opacity-60`}
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
-          </div>
-        </form>
+          </form>
+
+          <p className="text-center text-xs text-gray-500 dark:text-gray-400">
+            Use your admin credentials to manage dogs and inquiries.
+          </p>
+        </div>
       </div>
     </div>
   );

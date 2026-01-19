@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDog, getDogs } from "@/lib/dogs";
@@ -7,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { getLocale } from "@/lib/i18n-server";
 import { getMessages, format, type Locale } from "@/lib/i18n-messages";
 import { translateAttribute, translateAge } from "@/lib/i18n-helpers";
+import DogGallery from "./DogGallery";
 
 export async function generateStaticParams() {
   const dogs = await getDogs();
@@ -45,8 +45,7 @@ export default async function DogPage({
   const dog = await getDog(id);
   if (!dog) return notFound();
 
-  const gallery =
-    dog.gallery && dog.gallery.length > 0 ? dog.gallery : [dog.image];
+  const gallery = Array.from(new Set([dog.image, ...(dog.gallery ?? [])]));
   const locale = await getLocale();
   const m = getMessages(locale);
 
@@ -102,37 +101,7 @@ export default async function DogPage({
 
         <div className="grid gap-8 lg:grid-cols-5">
           {/* Gallery */}
-          <div className="lg:col-span-3">
-            <div className="overflow-hidden rounded-3xl border border-orange-100 bg-white p-2 shadow-sm dark:border-orange-900/30 dark:bg-zinc-800">
-              <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900">
-                <Image
-                  src={dog.image}
-                  alt={dog.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover"
-                />
-              </div>
-              {gallery.length > 1 && (
-                <div className="mt-2 grid grid-cols-4 gap-2">
-                  {gallery.slice(0, 4).map((src, i) => (
-                    <div
-                      key={i}
-                      className="relative aspect-4/3 w-full overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900"
-                    >
-                      <Image
-                        src={src}
-                        alt={`${dog.name} ${i + 1}`}
-                        fill
-                        sizes="25vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          <DogGallery name={dog.name} images={gallery} />
 
           {/* Details */}
           <div className="lg:col-span-2">

@@ -81,6 +81,15 @@ const en: Messages = {
     "attr.months": "{count} months",
     "attr.month": "{count} month",
 
+    // Gallery
+    "gallery.open": "Open photo gallery",
+    "gallery.viewAll": "View all {count} photos",
+    "gallery.count": "Photo {current} of {total}",
+    "gallery.next": "Next photo",
+    "gallery.prev": "Previous photo",
+    "gallery.close": "Close gallery",
+    "gallery.thumbnail": "Photo {index}",
+
     // Modal
     "modal.title": "Adopt {name}",
     "modal.subtitle": "Tell us a bit about you and your home. We'll get back within 24–48 hours.",
@@ -187,6 +196,15 @@ const es: Messages = {
     "attr.year": "{count} año",
     "attr.months": "{count} meses",
     "attr.month": "{count} mes",
+
+    // Gallery
+    "gallery.open": "Abrir galería de fotos",
+    "gallery.viewAll": "Ver las {count} fotos",
+    "gallery.count": "Foto {current} de {total}",
+    "gallery.next": "Foto siguiente",
+    "gallery.prev": "Foto anterior",
+    "gallery.close": "Cerrar galería",
+    "gallery.thumbnail": "Foto {index}",
 
     // Modal
     "modal.title": "Adoptar a {name}",
