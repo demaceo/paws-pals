@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import DogExplorer from "./components/DogExplorer";
 import { getDogs } from "@/lib/dogs";
 import { getLocale } from "@/lib/i18n-server";
@@ -21,6 +22,42 @@ export default async function Home() {
 
       {/* Hero */}
       <section className="relative mx-auto max-w-7xl px-6 py-10">
+        <div className="relative mx-auto mb-12 flex max-w-4xl flex-col items-center overflow-hidden rounded-3xl border border-orange-100/70 bg-linear-to-r from-amber-50/90 via-white to-orange-50/80 p-7 text-center shadow-2xl shadow-orange-100/40 backdrop-blur-sm ring-1 ring-orange-200/60 dark:border-orange-900/50 dark:from-amber-900/30 dark:via-zinc-900/85 dark:to-orange-900/25 dark:shadow-orange-950/40 dark:ring-orange-900/40">
+          <div
+            aria-hidden
+            className="absolute -left-16 -top-14 h-52 w-52 rounded-full bg-orange-200/30 blur-3xl dark:bg-orange-900/25"
+          />
+          <div
+            aria-hidden
+            className="absolute -right-10 bottom-0 h-48 w-48 rounded-full bg-amber-200/40 blur-3xl dark:bg-amber-900/35"
+          />
+          <div className="absolute inset-x-8 bottom-1 h-px bg-gradient-to-r from-transparent via-orange-300/50 to-transparent dark:via-orange-700/60" />
+          <div className="relative flex flex-col items-center gap-4">
+            <div className="inline-flex items-center gap-3 rounded-full border border-orange-200/70 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-orange-700 shadow-sm shadow-orange-200/60 backdrop-blur dark:border-orange-900/50 dark:bg-zinc-900/70 dark:text-orange-200 dark:shadow-orange-950/30">
+              <span className="rounded-full bg-orange-500/15 px-2 py-1 text-[0.7rem] font-bold text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+                {m["nav.adopt"]}
+              </span>
+              <span className="text-zinc-700 dark:text-zinc-100">
+                {dogs.length} {m["stats.dogs"]}
+              </span>
+            </div>
+            <div className="relative flex items-center justify-center rounded-2xl bg-white/50 px-6 py-3 shadow-md shadow-orange-100/40 ring-1 ring-orange-100/60 backdrop-blur-sm dark:bg-zinc-950/60 dark:shadow-orange-950/30 dark:ring-orange-900/40">
+              <div
+                aria-hidden
+                className="absolute inset-0 translate-y-3 scale-95 rounded-2xl bg-orange-200/25 blur-2xl dark:bg-orange-900/30"
+              />
+              <Image
+                src="/oaat-logo.png"
+                alt={m["brand.name"]}
+                width={360}
+                height={140}
+                priority
+                className="relative h-20 w-auto drop-shadow-sm sm:h-24 md:h-28"
+              />
+            </div>
+            <div className="mt-1 h-1.5 w-24 rounded-full bg-gradient-to-r from-orange-500 via-amber-400 to-emerald-400 opacity-80 blur-[1px] drop-shadow-md dark:from-orange-400 dark:via-amber-300 dark:to-emerald-300" />
+          </div>
+        </div>
         <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
             <h1 className="text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl dark:text-zinc-50">
