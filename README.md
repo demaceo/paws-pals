@@ -7,7 +7,7 @@ A modern dog adoption website with an integrated admin dashboard for managing do
 ### Public Site
 
 - 🏠 Beautiful landing page with hero and dog grid
-- 🐕 Individual dog detail pages with galleries
+- 🐕 Individual dog detail pages with interactive gallery modals
 - 🔍 Filter dogs by sex, size, and more
 - 🌐 Bilingual support (English/Spanish)
 - 📱 Fully responsive design

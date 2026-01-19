@@ -25,12 +25,17 @@ This is a **Next.js 16 dog adoption platform** with a protected admin dashboard.
 
 ### Image Upload Flow (Cloudinary)
 
-1. Admin uploads via [DogForm](../app/admin/components/DogForm.tsx) → `POST /api/upload`
-2. [route.ts](../app/api/upload/route.ts) converts File to Buffer → uploads to Cloudinary under `dogs/[dogName]/` folder
-3. Returns Cloudinary URL (e.g., `https://res.cloudinary.com/.../dogs/buddy/img.webp`)
-4. URLs stored in database, not files in `/public`
+1. Admin selects image via [DogForm](../app/admin/components/DogForm.tsx) → shows crop modal
+2. [ImageCropModal](../app/admin/components/ImageCropModal.tsx) allows resize, crop, rotate, and quality adjustment
+3. Cropped image converted to blob → `POST /api/upload`
+4. [route.ts](../app/api/upload/route.ts) converts File to Buffer → uploads to Cloudinary under `dogs/[dogName]/` folder
+5. Returns Cloudinary URL (e.g., `https://res.cloudinary.com/.../dogs/buddy/img.webp`)
+6. URLs stored in database, not files in `/public`
 
 - **No local file storage**: All images go to Cloudinary CDN, never commit images to Git
+- **Client-side cropping**: Uses `react-easy-crop` library for interactive image editing
+- **Image utilities**: [lib/image-utils.ts](../lib/image-utils.ts) handles cropping, rotation, and resizing
+- **Automatic resizing**: Default max width 1200px, quality 90% (adjustable in crop modal)
 
 ### i18n Implementation (Cookie-Based)
 
@@ -210,7 +215,6 @@ ADMIN_PASSWORD=<strong-password>             # Strong password (not password123)
 When implementing automated tests, focus on:
 
 1. **Admin workflow testing** (highest priority):
-
    - Authentication flow (login, logout, session persistence)
    - CRUD operations (create, read, update, delete dogs)
    - Image upload validation (file types, size limits, Cloudinary integration)
@@ -218,13 +222,11 @@ When implementing automated tests, focus on:
    - Authorization checks (API routes reject unauthenticated requests)
 
 2. **Recommended testing stack**:
-
    - **Unit tests**: Vitest for lib functions (`lib/dogs.ts`, `lib/validations.ts`, `lib/i18n-messages.ts`)
    - **Integration tests**: Vitest + MSW for API routes (`app/api/**`)
    - **E2E tests**: Playwright for user workflows (admin dashboard, public site)
 
 3. **Test patterns to follow**:
-
    - Mock Prisma client using `prisma-mock` or in-memory SQLite
    - Mock Cloudinary uploads in tests (don't hit real API)
    - Use test database URL: `DATABASE_URL_TEST` in `.env.test`
@@ -262,25 +264,21 @@ __tests__/
 When building new features or refactoring, keep these future additions in mind:
 
 1. **Visitor inquiry submissions** (near-term):
-
    - Admin receives adoption inquiry emails (not just form submissions)
    - Store inquiries in database for tracking
    - Add `Inquiry` model to Prisma schema
 
 2. **Payment processing for donations**:
-
    - Stripe integration for one-time/recurring donations
    - Donation tracking and receipts
    - Public-facing donation page
 
 3. **Multiple admin roles**:
-
    - Role-based access control (viewer, editor, super-admin)
    - Update `Admin` model with `role` field
    - Middleware checks for role-specific permissions
 
 4. **Email subscription newsletters**:
-
    - Newsletter signup form on public site
    - SendGrid/Mailchimp integration
    - Subscriber management in admin dashboard
